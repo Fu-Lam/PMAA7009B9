@@ -186,19 +186,21 @@ nav {
     background: var(--light-blue);
 }
 
-/* AI Assistant Dialog Area (Fixed Bottom) */
+/* AI Assistant Dialog Area (Floating Corner) */
 .ai-assistant-section {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: 30px;
+    right: 30px;
+    width: 380px; /* Smaller footprint */
     background: var(--white);
-    border-top: 2px solid var(--primary-blue);
+    border: 1px solid var(--gray-200);
     z-index: 2000;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-    height: 450px; /* Adjust height as needed */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: var(--transition);
 }
 
 .ai-assistant-header {
@@ -221,15 +223,15 @@ nav {
     overflow: hidden;
 }
 
-/* Left Sidebar - Conversation History */
+/* Sidebar - Conversation History (Hidden on mobile/smaller widget) */
 .chat-sidebar {
-    width: 260px;
+    width: 120px; /* Narrower sidebar for small widget */
     background: var(--gray-100);
     border-right: 1px solid var(--gray-200);
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .history-item {
@@ -317,9 +319,9 @@ nav {
     border-color: var(--primary-blue);
 }
 
-/* Footer (Adjusted for Fixed Assistant) */
+/* Footer (Restore standard padding) */
 footer {
-    padding: 50px 0 500px; /* Added large bottom padding to account for fixed assistant */
+    padding: 60px 0;
     border-top: 1px solid var(--gray-200);
     text-align: center;
     color: var(--gray-800);

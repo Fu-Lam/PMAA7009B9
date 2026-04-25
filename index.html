@@ -134,10 +134,12 @@
             const section = document.querySelector('.ai-assistant-section');
             if (layout.style.display === 'none') {
                 layout.style.display = 'flex';
-                section.style.height = '450px';
+                section.style.height = '500px';
+                section.style.width = '380px';
             } else {
                 layout.style.display = 'none';
                 section.style.height = 'auto';
+                section.style.width = '250px'; // Smaller when closed
             }
         }
 
