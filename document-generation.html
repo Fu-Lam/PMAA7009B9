@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法律文书生成 - FinCheck</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">FinCheck</a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="quick-check.html">合规速查</a></li>
+                <li><a href="diagnosis.html">合规诊断</a></li>
+                <li><a href="document-generation.html" class="active">文书生成</a></li>
+                <li><a href="about.html">关于我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>法律文书生成</h1>
+            <p>基于 AI 法律引擎，为您的金融业务快速起草专业、严谨的合规法律文书。</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Document Selection -->
+        <div class="doc-selector" style="margin-top: 40px;">
+            <button class="doc-btn" data-type="privacy">隐私政策</button>
+            <button class="doc-btn" data-type="consent">用户知情同意书</button>
+            <button class="doc-btn" data-type="risk">风险告知书</button>
+            <button class="doc-btn" data-type="notice">客户须知</button>
+            <button class="doc-btn" data-type="auth">授权协议</button>
+        </div>
+
+        <!-- Inputs Container -->
+        <div class="diagnosis-container" id="inputSection" style="display: none; margin-top: 20px;">
+            <h3 style="margin-bottom: 20px; color: var(--dark-blue);" id="selectedDocTitle">请输入文书个性化信息</h3>
+            <div class="form-group">
+                <label>产品名称</label>
+                <input type="text" id="productName" class="form-control" placeholder="例如：FinCheck 合规云">
+            </div>
+            <div class="form-group">
+                <label>公司名称</label>
+                <input type="text" id="companyName" class="form-control" placeholder="例如：金融科技有限公司">
+            </div>
+            <div class="form-group">
+                <label>业务类型</label>
+                <input type="text" id="businessType" class="form-control" placeholder="例如：第三方支付、个人信贷">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; padding: 15px;" id="generateBtn">生成 AI 文书</button>
+        </div>
+
+        <!-- Loading Area -->
+        <div id="loader" class="loader-container" style="display: none; padding: 100px 0;">
+            <span class="loader"></span>
+            <p style="margin-top: 20px; font-size: 1.1rem; color: var(--primary-blue);">正在调用 AI 法律文书生成 API，请稍候...</p>
+        </div>
+
+        <!-- Document Result -->
+        <div id="docResult" class="paper-preview">
+            <h2 id="docDisplayTitle">文书标题</h2>
+            <div id="docContent">
+                <!-- AI Generated Content Here -->
+            </div>
+            <div class="report-actions">
+                <button class="btn btn-primary" onclick="alert('操作成功：文书全文已复制到剪贴板')">复制全文</button>
+                <button class="btn btn-cta" onclick="alert('操作成功：PDF 文书已开始下载')">下载 PDF</button>
+                <button class="btn" style="background: var(--gray-200); color: var(--text-main);" onclick="location.reload()">重新生成</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 FinCheck 合规科技. 版权所有。</p>
+        </div>
+    </footer>
+
+    <script>
+        const templates = {
+            privacy: {
+                title: '隐私政策',
+                content: `
+                    <p>本《隐私政策》将帮助您了解 <strong>[公司名称]</strong>（以下简称“我们”）在提供 <strong>[产品名称]</strong> 产品及 <strong>[业务类型]</strong> 相关服务过程中如何收集、使用、存储您的个人信息。</p>
+                    <span class="section-title">一、信息收集范围</span>
+                    <p>为提供 <strong>[业务类型]</strong> 服务之必要，我们将收集您的身份信息、联系方式、生物识别信息以及交易记录。我们承诺仅在法律法规允许且您授权的范围内使用上述信息。</p>
+                    <span class="section-title">二、数据存储与安全</span>
+                    <p>我们采用行业领先的加密技术存储您的数据。除非法律另有规定，我们仅在为实现本政策所述目的所必需的时间内保留您的个人信息。</p>
+                    <span class="section-title">三、免责声明</span>
+                    <p>请您知悉，虽然我们已采取严格安全措施，但互联网环境并非百分之百安全。如因您个人原因导致账号泄露，<strong>[公司名称]</strong> 概不负责。</p>
+                `
+            },
+            consent: {
+                title: '用户知情同意书',
+                content: `
+                    <p>本人已充分阅读并理解 <strong>[公司名称]</strong> 提供的 <strong>[产品名称]</strong> 服务规则，并自愿申请使用该产品下的 <strong>[业务类型]</strong> 服务。</p>
+                    <span class="section-title">一、权利与义务</span>
+                    <p><strong>[公司名称]</strong> 有权根据监管要求对本人的 <strong>[业务类型]</strong> 行为进行合规审查。本人承诺提供的信息真实有效。</p>
+                    <span class="section-title">二、费用说明</span>
+                    <p>使用 <strong>[产品名称]</strong> 可能产生的相关费用将严格按照公开标准执行，本人对此表示认可。</p>
+                `
+            },
+            risk: {
+                title: '风险告知书',
+                content: `
+                    <p>尊敬的用户，在您通过 <strong>[产品名称]</strong> 使用 <strong>[业务类型]</strong> 服务前，<strong>[公司名称]</strong> 郑重提醒您注意以下风险：</p>
+                    <span class="section-title">一、市场风险</span>
+                    <p><strong>[业务类型]</strong> 涉及金融波动及监管政策变化风险，请您根据自身财务状况审慎决策。</p>
+                    <span class="section-title">二、信息安全风险</span>
+                    <p><strong>[产品名称]</strong> 虽提供安全保障，但无法完全排除黑客攻击等不可抗力导致的风险。</p>
+                    <span class="section-title">三、特别声明</span>
+                    <p>本服务不构成任何投资建议。<strong>[公司名称]</strong> 对因市场风险导致的损失不承担赔偿责任。</p>
+                `
+            },
+            notice: {
+                title: '客户须知',
+                content: `
+                    <p>欢迎使用 <strong>[公司名称]</strong> 开发的 <strong>[产品名称]</strong>。为保障您的 <strong>[业务类型]</strong> 体验，请知悉以下事项：</p>
+                    <p>1. 业务流程：请严格遵守 <strong>[产品名称]</strong> 的操作指南进行 <strong>[业务类型]</strong> 操作。</p>
+                    <p>2. 客服支持：如有任何疑问，请联系 <strong>[公司名称]</strong> 官方客服电话。</p>
+                    <p>3. 合规声明：本服务严格遵守国家关于金融科技及 <strong>[业务类型]</strong> 的各项法律规定。</p>
+                `
+            },
+            auth: {
+                title: '授权协议',
+                content: `
+                    <p>甲方（用户）特此授权乙方 <strong>[公司名称]</strong>，在甲方使用 <strong>[产品名称]</strong> 提供的 <strong>[业务类型]</strong> 期间，乙方有权调取甲方的相关征信及交易数据。</p>
+                    <span class="section-title">一、授权期限</span>
+                    <p>本授权自甲方点击确认起生效，有效期至甲方注销 <strong>[产品名称]</strong> 账户或双方协商终止时止。</p>
+                    <span class="section-title">二、违约责任</span>
+                    <p>如 <strong>[公司名称]</strong> 超出授权范围使用数据，应承担相应的法律责任。</p>
+                `
+            }
+        };
+
+        let currentType = '';
+        const docBtns = document.querySelectorAll('.doc-btn');
+        const inputSection = document.getElementById('inputSection');
+        const loader = document.getElementById('loader');
+        const docResult = document.getElementById('docResult');
+        const generateBtn = document.getElementById('generateBtn');
+
+        docBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                docBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentType = btn.dataset.type;
+                
+                document.getElementById('selectedDocTitle').innerText = `生成《${templates[currentType].title}》`;
+                inputSection.style.display = 'block';
+                docResult.style.display = 'none';
+                
+                // Scroll to form
+                inputSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        generateBtn.addEventListener('click', () => {
+            const product = document.getElementById('productName').value;
+            const company = document.getElementById('companyName').value;
+            const business = document.getElementById('businessType').value;
+
+            if (!product || !company || !business) {
+                alert('请完整填写个性化信息');
+                return;
+            }
+
+            inputSection.style.display = 'none';
+            loader.style.display = 'block';
+
+            // Simulate 3s AI Generation
+            setTimeout(() => {
+                loader.style.display = 'none';
+                docResult.style.display = 'block';
+
+                const template = templates[currentType];
+                document.getElementById('docDisplayTitle').innerText = template.title;
+                
+                let personalizedContent = template.content
+                    .replace(/\[产品名称\]/g, `<span style="color: var(--primary-blue); font-weight: 600;">${product}</span>`)
+                    .replace(/\[公司名称\]/g, `<span style="color: var(--primary-blue); font-weight: 600;">${company}</span>`)
+                    .replace(/\[业务类型\]/g, `<span style="color: var(--primary-blue); font-weight: 600;">${business}</span>`);
+
+                document.getElementById('docContent').innerHTML = personalizedContent;
+                
+                docResult.scrollIntoView({ behavior: 'smooth' });
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

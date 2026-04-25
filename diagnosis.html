@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 合规诊断 - FinCheck</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">FinCheck</a>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="quick-check.html">合规速查</a></li>
+                <li><a href="diagnosis.html" class="active">合规诊断</a></li>
+                <li><a href="document-generation.html">文书生成</a></li>
+                <li><a href="about.html">关于我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>AI 合规诊断</h1>
+            <p>基于最新的监管标准，为您的金融产品提供即时的合规健康检查。</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Diagnosis Form -->
+        <div class="diagnosis-container" id="diagnosisContainer">
+            <h2 style="margin-bottom: 30px; text-align: center; color: var(--dark-blue);">产品合规基础信息</h2>
+            <form id="diagnosisForm">
+                <div class="form-group">
+                    <label for="productType">1. 您的产品类型是？</label>
+                    <select id="productType" class="form-control" required>
+                        <option value="">请选择</option>
+                        <option value="payment">支付</option>
+                        <option value="credit">信贷</option>
+                        <option value="wealth">理财</option>
+                        <option value="insurance">保险</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>2. 是否收集用户个人信息（身份证、生物识别等）？</label>
+                    <select id="collectInfo" class="form-control" required>
+                        <option value="">请选择</option>
+                        <option value="yes">是</option>
+                        <option value="no">否</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>3. 是否集成第三方 SDK（统计、广告、社交等）？</label>
+                    <select id="useSdk" class="form-control" required>
+                        <option value="">请选择</option>
+                        <option value="yes">是</option>
+                        <option value="no">否</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>4. 是否向用户推送营销信息（短信、弹窗等）？</label>
+                    <select id="marketing" class="form-control" required>
+                        <option value="">请选择</option>
+                        <option value="yes">是</option>
+                        <option value="no">否</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 20px;">生成 AI 诊断报告</button>
+            </form>
+        </div>
+
+        <!-- Loading -->
+        <div id="loader" class="loader-container" style="display: none; padding: 100px 0;">
+            <span class="loader"></span>
+            <p style="margin-top: 20px; font-size: 1.1rem; color: var(--primary-blue);">正在调用 AI 合规诊断 API，请稍候...</p>
+        </div>
+
+        <!-- Report Result -->
+        <div id="reportResult" class="report-card">
+            <div class="report-header">
+                <h2 style="color: var(--dark-blue); margin-bottom: 5px;">AI 合规诊断报告</h2>
+                <p class="report-time">生成时间：2026年4月25日</p>
+            </div>
+
+            <div id="reportContent">
+                <!-- Dynamic Content Here -->
+            </div>
+
+            <div class="report-actions">
+                <button class="btn btn-primary" onclick="alert('操作成功：报告内容已复制到剪贴板')">复制报告</button>
+                <button class="btn btn-cta" onclick="alert('操作成功：PDF 报告已开始下载')">下载 PDF</button>
+                <button class="btn" style="background: var(--gray-200); color: var(--text-main);" onclick="location.reload()">重新诊断</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 FinCheck 合规科技. 版权所有。</p>
+        </div>
+    </footer>
+
+    <script>
+        const reports = {
+            low: {
+                score: 92,
+                level: '低风险',
+                levelClass: 'risk-low',
+                issues: '产品架构基本符合监管要求，合规意识较强。',
+                advice: '1. 资质：确保持牌经营，关注证照年检；2. 数据：建议定期进行数据安全审计；3. 反洗钱：完善大额交易监测规则。'
+            },
+            medium: {
+                score: 72,
+                level: '中风险',
+                levelClass: 'risk-medium',
+                issues: '用户授权流程存在瑕疵，第三方 SDK 权限获取过广。',
+                advice: '1. 资质：补充必要的网络安全等级保护备案；2. 数据：重构用户隐私协议，增加显式授权弹窗；3. 营销：增加用户一键退订营销信息的功能。'
+            },
+            high: {
+                score: 45,
+                level: '高风险',
+                levelClass: 'risk-high',
+                issues: '存在严重合规漏洞，涉嫌过度收集敏感信息及违规跨界经营。',
+                advice: '1. 立即停止未经授权的数据收集行为；2. 资质：需立即申请对应业务赛道的金融牌照；3. 营销：停止所有诱导性借贷推广。建议立即咨询专业律师团队。'
+            }
+        };
+
+        const form = document.getElementById('diagnosisForm');
+        const loader = document.getElementById('loader');
+        const container = document.getElementById('diagnosisContainer');
+        const result = document.getElementById('reportResult');
+        const contentArea = document.getElementById('reportContent');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Hide form and show loader
+            container.style.display = 'none';
+            loader.style.display = 'block';
+
+            // Simulate 2s processing
+            setTimeout(() => {
+                loader.style.display = 'none';
+                result.style.display = 'block';
+
+                // Simple logic to pick report
+                const yesCount = [
+                    document.getElementById('collectInfo').value,
+                    document.getElementById('useSdk').value,
+                    document.getElementById('marketing').value
+                ].filter(v => v === 'yes').length;
+
+                let reportKey = 'low';
+                if (yesCount >= 3) reportKey = 'high';
+                else if (yesCount >= 1) reportKey = 'medium';
+
+                const data = reports[reportKey];
+                const productText = document.getElementById('productType').selectedOptions[0].text;
+
+                contentArea.innerHTML = `
+                    <div class="score-section">
+                        <div class="score-circle">
+                            <span class="num">${data.score}</span>
+                            <span style="font-size: 0.8rem;">合规评分</span>
+                        </div>
+                        <div>
+                            <span style="display: block; margin-bottom: 5px; color: #666;">风险等级</span>
+                            <span class="risk-level ${data.levelClass}">${data.level}</span>
+                        </div>
+                    </div>
+
+                    <div class="report-dimension">
+                        <span class="dimension-title">1. 资质要求诊断</span>
+                        <p>针对 <strong>${productText}</strong> 业务，您需要具备相关的金融牌照或备案。当前系统评估结论为：${data.score > 80 ? '符合预期' : '需尽快补齐'}</p>
+                    </div>
+
+                    <div class="report-dimension">
+                        <span class="dimension-title">2. 数据合规诊断</span>
+                        <p>${data.issues}</p>
+                    </div>
+
+                    <div class="report-dimension">
+                        <span class="dimension-title">3. 反洗钱要求</span>
+                        <p>根据您的产品类型，必须建立健全的 KYC 和可疑交易报告机制。</p>
+                    </div>
+
+                    <div class="report-dimension">
+                        <span class="dimension-title">4. 营销合规诊断</span>
+                        <p>存在的问题和整改建议：</p>
+                        <p style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-top: 10px;">
+                            ${data.advice.split(';').join('<br>')}
+                        </p>
+                    </div>
+                `;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
