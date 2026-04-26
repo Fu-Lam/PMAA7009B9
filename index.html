@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinCheck - AI 驱动的金融科技合规平台</title>
+    <title>FinCheck - AI-Driven FinTech Compliance Platform</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,22 +11,23 @@
         <div class="container nav-container">
             <a href="index.html" class="logo">FinCheck</a>
             <ul class="nav-links">
-                <li><a href="index.html" class="active">首页</a></li>
-                <li><a href="quick-check.html">合规速查</a></li>
-                <li><a href="diagnosis.html">合规诊断</a></li>
-                <li><a href="document-generation.html">文书生成</a></li>
-                <li><a href="about.html">关于我们</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="quick-check.html">Compliance Quick Check</a></li>
+                <li><a href="diagnosis.html">Compliance Diagnosis</a></li>
+                <li><a href="document-generation.html">Legal Document Generator</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="about.html">About Us</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="hero">
         <div class="container">
-            <h1>FinCheck - AI 驱动的金融科技合规平台</h1>
-            <p>让初创公司不再死于合规 | 一站式解决支付、信贷、反洗钱等全场景合规问题</p>
+            <h1>FinCheck - AI-Driven FinTech Compliance Platform</h1>
+            <p>Let startups no longer die of compliance | One-stop solution for payment, credit, AML, and all scenarios</p>
             <div class="hero-btns">
-                <a href="diagnosis.html" class="btn btn-primary">立即开始合规诊断</a>
-                <a href="quick-check.html" class="btn btn-cta">查看所有合规赛道</a>
+                <a href="diagnosis.html" class="btn btn-primary">Start Compliance Diagnosis</a>
+                <a href="quick-check.html" class="btn btn-cta">View All Compliance Tracks</a>
             </div>
         </div>
     </header>
@@ -36,18 +37,18 @@
             <div class="feature-grid">
                 <a href="quick-check.html" class="card">
                     <i class="fas fa-search-dollar"></i>
-                    <h3>AI 合规速查</h3>
-                    <p>智能检索最新监管政策，支持自然语言提问，即时获取合规要求与市场准入标准。</p>
+                    <h3>AI Compliance Quick Check</h3>
+                    <p>Intelligently search the latest regulatory policies, support natural language queries, and get instant compliance requirements.</p>
                 </a>
                 <a href="diagnosis.html" class="card">
                     <i class="fas fa-robot"></i>
-                    <h3>AI 合规诊断</h3>
-                    <p>一键生成深度产品合规报告，自动识别业务风险点并给出针对性的整改建议。</p>
+                    <h3>AI Compliance Diagnosis</h3>
+                    <p>Generate in-depth product compliance reports with one click, automatically identify risks, and get actionable advice.</p>
                 </a>
                 <a href="document-generation.html" class="card">
                     <i class="fas fa-file-signature"></i>
-                    <h3>AI 法律文书生成</h3>
-                    <p>自动生成高标准的隐私政策、知情同意书、授权协议等合规文本，省去高昂律师费。</p>
+                    <h3>AI Legal Document Generator</h3>
+                    <p>Automatically generate high-standard privacy policies, informed consent, and authorization agreements, saving expensive legal fees.</p>
                 </a>
             </div>
         </div>
@@ -55,38 +56,43 @@
 
     <section class="target-audience">
         <div class="container">
-            <h2 class="section-title">谁在使用 FinCheck？</h2>
+            <h2 class="section-title">Who uses FinCheck?</h2>
             <div class="audience-tags">
-                <span class="tag">金融科技初创公司</span>
-                <span class="tag">独立开发者</span>
-                <span class="tag">早期创业团队</span>
-                <span class="tag">金融专业学生</span>
+                <span class="tag">FinTech Startups</span>
+                <span class="tag">Independent Developers</span>
+                <span class="tag">Early-stage Teams</span>
+                <span class="tag">Finance Students</span>
             </div>
         </div>
     </section>
 
     <!-- AI Compliance Assistant Dialog Area -->
-    <section class="ai-assistant-section">
-        <div class="ai-assistant-header">
-            <h3><i class="fas fa-comment-dots"></i> AI 合规助手 24/7 在线解答</h3>
-            <button style="background:transparent; border:none; color:white; cursor:pointer;" onclick="toggleChat()"><i class="fas fa-chevron-down"></i></button>
+    <section class="ai-assistant-section" id="aiAssistant" style="width: 100%; height: 33vh; bottom: 0; right: 0; left: 0; border-radius: 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);">
+        <div class="resize-handle" id="resizeHandle" style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; cursor: n-resize; background: transparent; z-index: 2001;"></div>
+        <div class="resize-handle" id="resizeHandleLeft" style="position: absolute; top: 0; left: 0; width: 5px; height: 100%; cursor: w-resize; background: transparent; z-index: 2001;"></div>
+        <div class="resize-handle" id="resizeHandleRight" style="position: absolute; top: 0; right: 0; width: 5px; height: 100%; cursor: e-resize; background: transparent; z-index: 2001;"></div>
+        
+        <div class="ai-assistant-header" id="chatHeader" style="cursor: move;">
+            <h3><i class="fas fa-comment-dots"></i> AI Compliance Assistant 24/7</h3>
+            <button id="chatToggleBtn" style="background:transparent; border:none; color:white; cursor:pointer;" onclick="event.stopPropagation(); toggleChat()"><i class="fas fa-chevron-down"></i></button>
         </div>
         <div class="ai-assistant-layout" id="chatLayout">
             <aside class="chat-sidebar">
-                <div class="history-item">支付合规咨询</div>
-                <div class="history-item">消费金融合规咨询</div>
-                <div class="history-item">数据合规咨询</div>
+                <div class="history-item">Payment Compliance</div>
+                <div class="history-item">Data Compliance</div>
+                <div class="history-item">Anti-Money Laundering</div>
+                <div class="history-item">Consumer Finance</div>
             </aside>
             <main class="chat-main">
-                <div class="chat-top-bar">新对话</div>
+                <div class="chat-top-bar">New Chat</div>
                 <div class="chat-messages" id="chatMessages">
                     <div class="message ai">
-                        您好！我是 FinCheck AI 助手。有什么我可以帮您的合规问题吗？例如：“做支付需要什么牌照？”
+                        Hello! I am the FinCheck AI Assistant. How can I help you with compliance today? e.g., "What licenses are needed for payments?"
                     </div>
                 </div>
                 <div class="chat-input-area">
-                    <input type="text" id="chatInput" class="chat-input" placeholder="用自然语言提问，例如：做支付需要什么牌照？">
-                    <button class="btn btn-primary" onclick="sendMessage()">发送</button>
+                    <input type="text" id="chatInput" class="chat-input" placeholder="Ask in natural language, e.g.: What licenses are needed for payments?">
+                    <button class="btn btn-primary" onclick="sendMessage()">Send</button>
                 </div>
             </main>
         </div>
@@ -94,7 +100,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 FinCheck 合规科技. 版权所有。</p>
+            <p>&copy; 2026 FinCheck Compliance Tech. All rights reserved.</p>
         </div>
     </footer>
 
@@ -102,46 +108,217 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const messages = document.getElementById('chatMessages');
-            const text = input.value.trim();
-            
-            if (text) {
-                // Add user message
-                const userMsg = document.createElement('div');
-                userMsg.className = 'message user';
-                userMsg.innerText = text;
-                messages.appendChild(userMsg);
-                input.value = '';
-                
-                // Auto scroll
-                messages.scrollTop = messages.scrollHeight;
+        // --- 豆包 (Doubao) API 配置 ---
+        const API_KEY = 'ark-6c00de05-4616-42eb-b202-358f5bb04057-49af4';
+        const MODEL_ID = 'doubao-seed-2-0-mini-260215';
+        const API_URL = 'https://ark.cn-beijing.volces.com/api/v3/chat/completions';
 
-                // Simulate AI response
-                setTimeout(() => {
-                    const aiMsg = document.createElement('div');
-                    aiMsg.className = 'message ai';
-                    aiMsg.innerText = `针对您提问的“${text}”，我正在检索最新的金融监管库... 作为初级建议：金融科技业务通常需要根据业务类型（如第三方支付、消费信贷）申请对应的牌照。建议您前往“合规诊断”页面进行深度评估。`;
-                    messages.appendChild(aiMsg);
-                    messages.scrollTop = messages.scrollHeight;
-                }, 1000);
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            appendMessage('user', message);
+            input.value = '';
+
+            // Add AI thinking message
+            const aiMsgDiv = appendMessage('ai', 'Thinking...');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL_ID,
+                        messages: [
+                            { role: "system", content: "You are a professional FinTech compliance assistant. Please answer user questions regarding payment, data security, AML, and consumer finance compliance in English." },
+                            { role: "user", content: message }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'API Call Failed');
+                }
+
+                const data = await response.json();
+                aiMsgDiv.innerText = data.choices[0].message.content;
+
+            } catch (error) {
+                console.error('API Error:', error);
+                aiMsgDiv.innerText = `🤖 Sorry, AI engine connection failed: ${error.message}`;
             }
         }
+
+        function appendMessage(role, text) {
+            const container = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${role}`; // role: 'user' or 'ai'
+            msgDiv.innerText = text;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+            return msgDiv;
+        }
+
+        let savedWidth = '100%';
+        let savedHeight = '33vh';
+        let savedLeft = '0';
+        let savedRight = '0';
+        let savedTop = 'auto';
+        let savedBottom = '0';
+        let savedBorderRadius = '0';
 
         function toggleChat() {
             const layout = document.getElementById('chatLayout');
-            const section = document.querySelector('.ai-assistant-section');
+            const section = document.getElementById('aiAssistant');
+            const icon = document.querySelector('#chatToggleBtn i');
+            
             if (layout.style.display === 'none') {
+                // Restore state
                 layout.style.display = 'flex';
-                section.style.height = '500px';
-                section.style.width = '380px';
+                section.style.width = savedWidth;
+                section.style.height = savedHeight;
+                section.style.left = savedLeft;
+                section.style.right = savedRight;
+                section.style.top = savedTop;
+                section.style.bottom = savedBottom;
+                section.style.borderRadius = savedBorderRadius;
+                icon.className = 'fas fa-chevron-down';
             } else {
+                // Save state before collapse
+                savedWidth = section.style.width || section.offsetWidth + 'px';
+                savedHeight = section.style.height || section.offsetHeight + 'px';
+                savedLeft = section.style.left;
+                savedRight = section.style.right;
+                savedTop = section.style.top;
+                savedBottom = section.style.bottom;
+                savedBorderRadius = section.style.borderRadius;
+
+                // Collapse
                 layout.style.display = 'none';
                 section.style.height = 'auto';
-                section.style.width = '250px'; // Smaller when closed
+                section.style.width = '280px'; 
+                section.style.left = 'auto';
+                section.style.right = '30px';
+                section.style.bottom = '0';
+                section.style.top = 'auto';
+                section.style.borderRadius = '12px 12px 0 0';
+                icon.className = 'fas fa-chevron-up';
             }
         }
+
+        // Draggable & Resizable Logic
+        const chatWindow = document.getElementById('aiAssistant');
+        const chatHeader = document.getElementById('chatHeader');
+        const resizeHandle = document.getElementById('resizeHandle');
+        const resizeHandleLeft = document.getElementById('resizeHandleLeft');
+        const resizeHandleRight = document.getElementById('resizeHandleRight');
+        
+        let isDragging = false;
+        let isResizing = false;
+        let isResizingLeft = false;
+        let isResizingRight = false;
+        let offset = { x: 0, y: 0 };
+        let startSize = { w: 0, h: 0 };
+        let startLeft = 0;
+
+        // Dragging
+        chatHeader.addEventListener('mousedown', (e) => {
+            if (e.target.closest('button')) return; 
+            isDragging = true;
+            offset.x = e.clientX - chatWindow.offsetLeft;
+            offset.y = e.clientY - chatWindow.offsetTop;
+            chatWindow.style.transition = 'none';
+            // Detach from right/bottom rules once dragged
+            chatWindow.style.right = 'auto';
+            chatWindow.style.bottom = 'auto';
+        });
+
+        // Resizing (Top edge)
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startSize.h = chatWindow.offsetHeight;
+            offset.y = e.clientY;
+            chatWindow.style.transition = 'none';
+            e.preventDefault();
+        });
+
+        // Resizing (Left edge)
+        resizeHandleLeft.addEventListener('mousedown', (e) => {
+            isResizingLeft = true;
+            startSize.w = chatWindow.offsetWidth;
+            startLeft = chatWindow.offsetLeft;
+            offset.x = e.clientX;
+            chatWindow.style.transition = 'none';
+            chatWindow.style.right = 'auto'; // Must decouple right to change width
+            e.preventDefault();
+        });
+
+        // Resizing (Right edge)
+        resizeHandleRight.addEventListener('mousedown', (e) => {
+            isResizingRight = true;
+            startSize.w = chatWindow.offsetWidth;
+            offset.x = e.clientX;
+            chatWindow.style.transition = 'none';
+            chatWindow.style.right = 'auto';
+            chatWindow.style.left = chatWindow.offsetLeft + 'px'; // Anchor left
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                let x = e.clientX - offset.x;
+                let y = e.clientY - offset.y;
+                const maxX = window.innerWidth - chatWindow.offsetWidth;
+                const maxY = window.innerHeight - chatWindow.offsetHeight;
+                x = Math.max(0, Math.min(x, maxX));
+                y = Math.max(0, Math.min(y, maxY));
+                chatWindow.style.left = x + 'px';
+                chatWindow.style.top = y + 'px';
+                chatWindow.style.width = chatWindow.offsetWidth + 'px'; // Freeze width once dragged
+                chatWindow.style.borderRadius = '12px';
+            }
+
+            if (isResizing) { // Top resize
+                const diffY = offset.y - e.clientY;
+                const newHeight = startSize.h + diffY;
+                if (newHeight > 100 && newHeight < window.innerHeight * 0.9) {
+                    chatWindow.style.height = newHeight + 'px';
+                    if (chatWindow.style.bottom !== '0px' && chatWindow.style.bottom !== '0') {
+                        chatWindow.style.top = (e.clientY) + 'px';
+                    }
+                }
+            }
+
+            if (isResizingRight) {
+                const newWidth = startSize.w + (e.clientX - offset.x);
+                if (newWidth > 300 && newWidth < window.innerWidth) {
+                    chatWindow.style.width = newWidth + 'px';
+                }
+            }
+
+            if (isResizingLeft) {
+                const diff = offset.x - e.clientX;
+                const newWidth = startSize.w + diff;
+                if (newWidth > 300 && newWidth < window.innerWidth) {
+                    chatWindow.style.width = newWidth + 'px';
+                    chatWindow.style.left = (startLeft - diff) + 'px';
+                }
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            isResizing = false;
+            isResizingLeft = false;
+            isResizingRight = false;
+            chatWindow.style.transition = 'var(--transition)';
+        });
 
         // Allow Enter key to send message
         document.getElementById('chatInput').addEventListener('keypress', function (e) {

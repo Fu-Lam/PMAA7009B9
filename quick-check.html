@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>合规速查 - FinCheck</title>
+    <title>Compliance Quick Check - FinCheck</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,33 +11,34 @@
         <div class="container nav-container">
             <a href="index.html" class="logo">FinCheck</a>
             <ul class="nav-links">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="quick-check.html" class="active">合规速查</a></li>
-                <li><a href="diagnosis.html">合规诊断</a></li>
-                <li><a href="document-generation.html">文书生成</a></li>
-                <li><a href="about.html">关于我们</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="quick-check.html" class="active">Compliance Quick Check</a></li>
+                <li><a href="diagnosis.html">Compliance Diagnosis</a></li>
+                <li><a href="document-generation.html">Legal Document Generator</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="about.html">About Us</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="page-header">
         <div class="container">
-            <h1>合规速查</h1>
-            <p>基于 AI 引擎，即时获取金融科技领域最新的监管要求与合规指南。</p>
+            <h1>Compliance Quick Check</h1>
+            <p>Powered by AI, instantly access the latest regulatory requirements and compliance guidelines in FinTech.</p>
         </div>
     </header>
 
     <section class="search-section">
         <div class="container">
             <div class="search-box-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="用自然语言提问，例如“做支付需要什么牌照？”">
-                <button id="searchBtn" class="btn btn-primary search-btn">搜索</button>
+                <input type="text" id="searchInput" class="search-input" placeholder="Ask in natural language, e.g., 'What licenses are needed for payments?'">
+                <button id="searchBtn" class="btn btn-primary search-btn">Search</button>
             </div>
             <div class="category-tabs">
-                <button class="tab-btn" data-category="payment">支付合规</button>
-                <button class="tab-btn" data-category="data">数据合规</button>
-                <button class="tab-btn" data-category="aml">反洗钱</button>
-                <button class="tab-btn" data-category="consumer_finance">消费金融</button>
+                <button class="tab-btn" data-category="payment">Payment Compliance</button>
+                <button class="tab-btn" data-category="data">Data Compliance</button>
+                <button class="tab-btn" data-category="aml">AML</button>
+                <button class="tab-btn" data-category="consumer_finance">Consumer Finance</button>
             </div>
         </div>
     </section>
@@ -46,13 +47,13 @@
         <!-- Loading -->
         <div id="loader" class="loader-container">
             <span class="loader"></span>
-            <p style="margin-top: 15px; color: var(--primary-blue);">正在调用 AI 合规引擎...</p>
+            <p style="margin-top: 15px; color: var(--primary-blue);">Calling AI Compliance Engine...</p>
         </div>
 
         <!-- Result Area -->
         <div id="resultArea">
             <div style="background: #f8f9fa; padding: 40px; border-radius: 8px; border: 1px dashed #004a99; text-align: center;">
-                <p style="color: #666;">请在上方输入问题或选择业务赛道</p>
+                <p style="color: #666;">Please enter a question above or select a business track.</p>
             </div>
         </div>
     </main>
@@ -60,19 +61,19 @@
     <!-- Regulatory Dynamics -->
     <section class="news-section">
         <div class="container">
-            <h2 class="section-title" style="text-align: left; margin-bottom: 30px;">最新监管动态</h2>
+            <h2 class="section-title" style="text-align: left; margin-bottom: 30px;">Latest Regulatory Updates</h2>
             <ul class="news-list">
                 <li class="news-item">
-                    <span class="news-date">2026年4月20日</span>
-                    <a href="#" class="news-title">央行发布《非银行支付机构监督管理条例实施细则》</a>
+                    <span class="news-date">Apr 20, 2026</span>
+                    <a href="#" class="news-title">PBOC Issues Implementation Rules for Non-bank Payment Institutions</a>
                 </li>
                 <li class="news-item">
-                    <span class="news-date">2026年4月15日</span>
-                    <a href="#" class="news-title">国家金融监督管理总局加强消费金融公司利率监管</a>
+                    <span class="news-date">Apr 15, 2026</span>
+                    <a href="#" class="news-title">NFRA Strengthens Interest Rate Supervision for Consumer Finance Companies</a>
                 </li>
                 <li class="news-item">
-                    <span class="news-date">2026年4月10日</span>
-                    <a href="#" class="news-title">网信办发布《金融数据安全管理办法》</a>
+                    <span class="news-date">Apr 10, 2026</span>
+                    <a href="#" class="news-title">CAC Releases Financial Data Security Management Measures</a>
                 </li>
             </ul>
         </div>
@@ -80,83 +81,83 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 FinCheck 合规科技. 版权所有。</p>
+            <p>&copy; 2026 FinCheck Compliance Tech. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
         const complianceData = {
             payment: {
-                title: '支付合规',
-                regulator: '中国人民银行',
-                qualification: '《支付业务许可证》',
+                title: 'Payment Compliance',
+                regulator: 'People\'s Bank of China (PBOC)',
+                qualification: 'Payment Business License',
                 requirements: [
-                    '客户备付金 100% 全额交存中国人民银行',
-                    '严格执行客户身份识别（KYC）制度，对账户进行分级管理',
-                    '交易记录自完成之日起至少保存 5 年',
-                    '建立健全反洗钱和反恐怖融资内部控制体系',
-                    '不得超范围经营支付业务'
+                    '100% full deposit of Customer Reserve Funds with PBOC',
+                    'Strict implementation of Know Your Customer (KYC) system and hierarchical account management',
+                    'Transaction records must be kept for at least 5 years from completion',
+                    'Establish a sound internal control system for Anti-Money Laundering (AML) and anti-terrorist financing',
+                    'Operating payment business beyond the approved scope is strictly prohibited'
                 ],
                 forbidden: [
-                    '挪用、占用、借用客户备付金',
-                    '泄露、出售、非法提供用户交易数据',
-                    '变相从事信贷、理财、证券等非支付金融业务'
+                    'Misappropriating, occupying, or borrowing Customer Reserve Funds',
+                    'Leaking, selling, or illegally providing user transaction data',
+                    'Disguised engagement in non-payment financial businesses such as credit, wealth management, or securities'
                 ],
-                keywords: ['支付', '牌照', '备付金', '转账', '第三方支付']
+                keywords: ['payment', 'license', 'reserve', 'transfer', 'third-party payment']
             },
             data: {
-                title: '数据合规',
-                regulator: '国家互联网信息办公室、中国人民银行',
-                qualification: '网络安全等级保护三级备案',
+                title: 'Data Compliance',
+                regulator: 'Cyberspace Administration of China (CAC), PBOC',
+                qualification: 'Cybersecurity Classified Protection Level 3',
                 requirements: [
-                    '收集个人信息应当遵循合法、正当、必要原则',
-                    '公开收集、使用规则，明示收集、使用信息的目的、方式和范围',
-                    '未经被收集者同意，不得向他人提供个人信息',
-                    '采取技术措施和其他必要措施，确保个人信息安全',
-                    '金融数据出境应当经过安全评估'
+                    'Collection of personal information must follow the principles of legality, fairness, and necessity',
+                    'Publicly state the rules, purposes, methods, and scope of information collection and usage',
+                    'Personal information must not be provided to others without the consent of the individual',
+                    'Adopt technical and necessary measures to ensure personal information security',
+                    'Cross-border Transfer of Financial Data must undergo security assessment'
                 ],
                 forbidden: [
-                    '过度收集与业务无关的个人信息',
-                    '非法买卖、泄露用户金融数据',
-                    '未经批准向境外提供境内用户金融数据'
+                    'Excessive collection of personal information unrelated to the business',
+                    'Illegal trading or leaking of user financial data',
+                    'Providing domestic user financial data overseas without approval'
                 ],
-                keywords: ['数据', '个人信息', '安全', '出境', '隐私', '等保']
+                keywords: ['data', 'personal information', 'security', 'cross-border', 'privacy', 'protection']
             },
             aml: {
-                title: '反洗钱 (AML)',
-                regulator: '中国人民银行',
-                qualification: '反洗钱内控制度、反洗钱专门机构',
+                title: 'Anti-Money Laundering (AML)',
+                regulator: 'People\'s Bank of China (PBOC)',
+                qualification: 'AML Internal Control System, Dedicated AML Department',
                 requirements: [
-                    '建立客户身份识别制度（KYC），对客户身份进行尽职调查',
-                    '建立客户身份资料和交易记录保存制度',
-                    '执行大额交易和可疑交易报告制度',
-                    '开展反洗钱培训和宣传工作',
-                    '配合中国人民银行的反洗钱调查'
+                    'Establish Know Your Customer (KYC) system and conduct customer due diligence',
+                    'Establish systems for preserving customer identity and transaction records',
+                    'Implement large-value and suspicious transaction reporting systems',
+                    'Conduct AML training and public awareness campaigns',
+                    'Cooperate with AML investigations by the PBOC'
                 ],
                 forbidden: [
-                    '为身份不明的客户提供服务或者与其进行交易',
-                    '泄露因反洗钱知悉的国家秘密、商业秘密 and 个人隐私',
-                    '拒绝、阻碍反洗钱检查、调查'
+                    'Providing services or conducting transactions with unidentified customers',
+                    'Leaking state secrets, commercial secrets, or personal privacy learned during AML work',
+                    'Refusing or obstructing AML inspections and investigations'
                 ],
-                keywords: ['反洗钱', '洗钱', 'KYC', '可疑交易', '身份识别', 'AML']
+                keywords: ['AML', 'money laundering', 'KYC', 'suspicious transaction', 'identity verification']
             },
             consumer_finance: {
-                title: '消费金融',
-                regulator: '国家金融监督管理总局',
-                qualification: '《消费金融公司牌照》',
+                title: 'Consumer Finance',
+                regulator: 'National Financial Regulatory Administration (NFRA)',
+                qualification: 'Consumer Finance Company License',
                 requirements: [
-                    '注册资本最低限额为 3 亿元人民币',
-                    '贷款利率不得超过国家规定的上限（LPR 的 4 倍）',
-                    '不得向无收入来源的借款人发放贷款',
-                    '充分披露贷款利息、费用、还款方式等信息',
-                    '不得暴力催收或者以其他非法方式催收贷款'
+                    'Minimum registered capital of 300 million RMB',
+                    'Loan interest rates must not exceed the national limit (4 times the LPR)',
+                    'Do not issue loans to borrowers without income sources',
+                    'Fully disclose loan interest, fees, and repayment terms',
+                    'Do not use violent or other illegal methods to collect loans'
                 ],
                 forbidden: [
-                    '发放无指定用途的贷款',
-                    '以欺诈、胁迫等手段诱导借款人借贷',
-                    '泄露借款人的个人信息和贷款信息'
+                    'Issuing loans without a specified purpose',
+                    'Inducing borrowers through fraud or coercion',
+                    'Leaking borrower\'s personal and loan information'
                 ],
-                keywords: ['消费金融', '贷款', '利率', '催收', '借贷']
+                keywords: ['consumer finance', 'loan', 'interest rate', 'collection', 'lending']
             }
         };
 
@@ -166,84 +167,151 @@
         const resultArea = document.getElementById('resultArea');
         const tabBtns = document.querySelectorAll('.tab-btn');
 
-        function renderContent(key, isAiResponse = false, query = '') {
-            const data = complianceData[key];
-            if (!data) return;
+        // --- 豆包 (Doubao) API 配置 ---
+        const API_KEY = 'ark-6c00de05-4616-42eb-b202-358f5bb04057-49af4';
+        const MODEL_ID = 'doubao-seed-2-0-mini-260215';
+        const API_URL = 'https://ark.cn-beijing.volces.com/api/v3/chat/completions';
 
-            let aiHeader = '';
-            if (isAiResponse) {
-                aiHeader = `
-                    <div class="ai-answer" style="margin-bottom: 30px; border: 1px solid var(--primary-blue); background: #f0f7ff;">
-                        <p style="margin-bottom: 10px;"><strong>🤖 AI 合规专家回答：</strong></p>
-                        <p style="color: var(--dark-blue); font-style: italic;">
-                            “作为金融科技合规专家，针对您提到的‘${query}’，我为您从最新的合规库中提取了 <strong>${data.title}</strong> 的相关规定。
-                            该业务主要受 <strong>${data.regulator}</strong> 监管，核心要求是持有 <strong>${data.qualification}</strong>。建议您重点关注其核心合规条款，特别是严禁从事的红线行为。”
-                        </p>
+        async function callDoubaoAPI(query) {
+            const context = JSON.stringify(complianceData);
+            const systemPrompt = `You are a FinTech compliance expert. Based on the known compliance database content below, answer the user's questions in a professional and concise manner in English.
+            If there is no relevant content, provide advice based on general financial compliance principles.
+            Known database: ${context}`;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL_ID,
+                        messages: [
+                            { role: "system", content: systemPrompt },
+                            { role: "user", content: query }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'API 调用失败');
+                }
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('API Error:', error);
+                return `🤖 AI Expert Connection Failed: ${error.message}. Please check your API Key or network status.`;
+            }
+        }
+
+        async function handleAction(type, value) {
+            resultArea.style.display = 'none';
+            loader.style.display = 'block';
+
+            if (type === 'tab') {
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    resultArea.style.display = 'block';
+                    renderContent(value);
+                }, 500);
+            } else if (type === 'search') {
+                const aiResponse = await callDoubaoAPI(value);
+                
+                loader.style.display = 'none';
+                resultArea.style.display = 'block';
+
+                const query = value.toLowerCase();
+                let matchKey = null;
+                for (const key in complianceData) {
+                    const item = complianceData[key];
+                    if (item.keywords.some(k => query.includes(k.toLowerCase())) || query.includes(item.title.toLowerCase())) {
+                        matchKey = key;
+                        break;
+                    }
+                }
+                renderAIResponse(aiResponse, value, matchKey);
+            }
+        }
+
+        function renderAIResponse(response, query, matchKey) {
+            let html = `
+                <div class="ai-answer" style="margin-bottom: 30px; border: 1px solid var(--primary-blue); background: #f0f7ff;">
+                    <p style="margin-bottom: 10px;"><strong>🤖 AI 合规专家回答：</strong></p>
+                    <div style="color: var(--dark-blue); line-height: 1.8;">${response}</div>
+                </div>
+            `;
+
+            if (matchKey) {
+                const data = complianceData[matchKey];
+                html += `
+                    <div class="compliance-card">
+                        <div class="card-header"><h3>权威参考：${data.title}</h3></div>
+                        <div class="card-body">
+                            <p style="margin-bottom: 10px;"><strong>必备资质：</strong> ${data.qualification}</p>
+                            <span class="compliance-section-title">核心合规要求：</span>
+                            <ul style="padding-left: 20px;">
+                                ${data.requirements.slice(0, 3).map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
                     </div>
                 `;
             }
 
+            resultArea.innerHTML = html;
+        }
+
+        function renderAIResponse(response, query, matchKey) {
             let html = `
-                ${aiHeader}
+                <div class="ai-answer" style="margin-bottom: 30px; border: 1px solid var(--primary-blue); background: #f0f7ff;">
+                    <p style="margin-bottom: 10px;"><strong>🤖 Real-time AI Compliance Expert:</strong></p>
+                    <div style="color: var(--dark-blue); line-height: 1.8; white-space: pre-wrap;">${response}</div>
+                </div>
+            `;
+
+            if (matchKey) {
+                const data = complianceData[matchKey];
+                html += `
+                    <div class="compliance-card">
+                        <div class="card-header"><h3>Reference: ${data.title}</h3></div>
+                        <div class="card-body">
+                            <p><strong>Required License:</strong> ${data.qualification}</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                ${data.requirements.slice(0, 3).map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            resultArea.innerHTML = html;
+        }
+
+        function renderContent(key) {
+            const data = complianceData[key];
+            if (!data) return;
+
+            resultArea.innerHTML = `
                 <div class="compliance-card">
-                    <div class="card-header"><h3>${data.title} - 权威合规指南</h3></div>
+                    <div class="card-header"><h3>${data.title} - Authoritative Guide</h3></div>
                     <div class="card-body">
-                        <p style="margin-bottom: 15px;"><strong>监管主体：</strong> ${data.regulator}</p>
-                        <p style="margin-bottom: 20px;"><strong>必备资质：</strong> ${data.qualification}</p>
+                        <p style="margin-bottom: 15px;"><strong>Regulator:</strong> ${data.regulator}</p>
+                        <p style="margin-bottom: 20px;"><strong>Required License:</strong> ${data.qualification}</p>
                         
-                        <span class="compliance-section-title">核心合规要求：</span>
+                        <span class="compliance-section-title">Core Requirements:</span>
                         <ul style="margin-bottom: 20px; padding-left: 20px;">
                             ${data.requirements.map(r => `<li style="margin-bottom: 8px;">${r}</li>`).join('')}
                         </ul>
 
-                        <span class="compliance-section-title" style="color: #c0392b;">禁止行为：</span>
+                        <span class="compliance-section-title" style="color: #c0392b;">Forbidden Actions:</span>
                         <ul class="forbidden-list" style="padding-left: 20px;">
                             ${data.forbidden.map(f => `<li style="margin-bottom: 8px;">${f}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
             `;
-            resultArea.innerHTML = html;
-        }
-
-        function handleAction(type, value) {
-            resultArea.style.display = 'none';
-            loader.style.display = 'block';
-
-            // Built-in Prompt Logic Simulation
-            // "你是金融科技合规专家，请根据用户的问题，从上面的合规条款中提取最相关的内容..."
-            
-            setTimeout(() => {
-                loader.style.display = 'none';
-                resultArea.style.display = 'block';
-
-                if (type === 'tab') {
-                    renderContent(value);
-                } else if (type === 'search') {
-                    const query = value.toLowerCase();
-                    let matchKey = null;
-                    
-                    // Enhanced keyword matching
-                    for (const key in complianceData) {
-                        const item = complianceData[key];
-                        const searchString = (item.title + item.regulator + item.keywords.join(' ') + item.requirements.join(' ')).toLowerCase();
-                        if (searchString.includes(query) || item.keywords.some(k => query.includes(k.toLowerCase()))) {
-                            matchKey = key;
-                            break;
-                        }
-                    }
-
-                    if (matchKey) {
-                        renderContent(matchKey, true, value);
-                    } else {
-                        resultArea.innerHTML = `
-                            <div class="ai-answer" style="background: #fff5f5; border-left-color: #e74c3c;">
-                                <p><strong>🤖 AI 合规专家：</strong> 抱歉，作为合规专家，我检索了现有的知识库，暂时没有找到与“${value}”相关的合规信息。请尝试查询“支付”、“数据安全”、“反洗钱”或“贷款利率”等关键词。</p>
-                            </div>
-                        `;
-                    }
-                }
-            }, 1000);
         }
 
         searchBtn.addEventListener('click', () => {
