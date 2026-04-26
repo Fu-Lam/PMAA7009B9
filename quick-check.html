@@ -15,6 +15,7 @@
                 <li><a href="quick-check.html" class="active">合规速查</a></li>
                 <li><a href="diagnosis.html">合规诊断</a></li>
                 <li><a href="document-generation.html">文书生成</a></li>
+                <li><a href="pricing.html">定价</a></li>
                 <li><a href="about.html">关于我们</a></li>
             </ul>
         </div>
@@ -166,25 +167,133 @@
         const resultArea = document.getElementById('resultArea');
         const tabBtns = document.querySelectorAll('.tab-btn');
 
-        function renderContent(key, isAiResponse = false, query = '') {
-            const data = complianceData[key];
-            if (!data) return;
+        // --- 豆包 (Doubao) API 配置 ---
+        const API_KEY = 'ark-6c00de05-4616-42eb-b202-358f5bb04057-49af4';
+        const MODEL_ID = 'doubao-seed-2-0-mini-260215';
+        const API_URL = 'https://ark.cn-beijing.volces.com/api/v3/chat/completions';
 
-            let aiHeader = '';
-            if (isAiResponse) {
-                aiHeader = `
-                    <div class="ai-answer" style="margin-bottom: 30px; border: 1px solid var(--primary-blue); background: #f0f7ff;">
-                        <p style="margin-bottom: 10px;"><strong>🤖 AI 合规专家回答：</strong></p>
-                        <p style="color: var(--dark-blue); font-style: italic;">
-                            “作为金融科技合规专家，针对您提到的‘${query}’，我为您从最新的合规库中提取了 <strong>${data.title}</strong> 的相关规定。
-                            该业务主要受 <strong>${data.regulator}</strong> 监管，核心要求是持有 <strong>${data.qualification}</strong>。建议您重点关注其核心合规条款，特别是严禁从事的红线行为。”
-                        </p>
+        async function callDoubaoAPI(query) {
+            const context = JSON.stringify(complianceData);
+            const systemPrompt = `你是金融科技合规专家。请根据以下已知的合规库内容，以专业、简洁的语言回答用户的问题。
+            如果没有相关内容，请基于通用金融合规原则给出建议。
+            已知合规库：${context}`;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL_ID,
+                        messages: [
+                            { role: "system", content: systemPrompt },
+                            { role: "user", content: query }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'API 调用失败');
+                }
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('API Error:', error);
+                return `🤖 AI 专家连接失败: ${error.message}。请检查 API Key 或网络状态。`;
+            }
+        }
+
+        async function handleAction(type, value) {
+            resultArea.style.display = 'none';
+            loader.style.display = 'block';
+
+            if (type === 'tab') {
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    resultArea.style.display = 'block';
+                    renderContent(value);
+                }, 500);
+            } else if (type === 'search') {
+                const aiResponse = await callDoubaoAPI(value);
+                
+                loader.style.display = 'none';
+                resultArea.style.display = 'block';
+
+                const query = value.toLowerCase();
+                let matchKey = null;
+                for (const key in complianceData) {
+                    const item = complianceData[key];
+                    if (item.keywords.some(k => query.includes(k.toLowerCase())) || query.includes(item.title.toLowerCase())) {
+                        matchKey = key;
+                        break;
+                    }
+                }
+                renderAIResponse(aiResponse, value, matchKey);
+            }
+        }
+
+        function renderAIResponse(response, query, matchKey) {
+            let html = `
+                <div class="ai-answer" style="margin-bottom: 30px; border: 1px solid var(--primary-blue); background: #f0f7ff;">
+                    <p style="margin-bottom: 10px;"><strong>🤖 AI 合规专家回答：</strong></p>
+                    <div style="color: var(--dark-blue); line-height: 1.8;">${response}</div>
+                </div>
+            `;
+
+            if (matchKey) {
+                const data = complianceData[matchKey];
+                html += `
+                    <div class="compliance-card">
+                        <div class="card-header"><h3>权威参考：${data.title}</h3></div>
+                        <div class="card-body">
+                            <p style="margin-bottom: 10px;"><strong>必备资质：</strong> ${data.qualification}</p>
+                            <span class="compliance-section-title">核心合规要求：</span>
+                            <ul style="padding-left: 20px;">
+                                ${data.requirements.slice(0, 3).map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
                     </div>
                 `;
             }
 
+            resultArea.innerHTML = html;
+        }
+
+        function renderAIResponse(response, query, matchKey) {
             let html = `
-                ${aiHeader}
+                <div class="ai-answer" style="margin-bottom: 30px; border: 1px solid var(--primary-blue); background: #f0f7ff;">
+                    <p style="margin-bottom: 10px;"><strong>🤖 实时 AI 合规专家回答：</strong></p>
+                    <div style="color: var(--dark-blue); line-height: 1.8; white-space: pre-wrap;">${response}</div>
+                </div>
+            `;
+
+            if (matchKey) {
+                const data = complianceData[matchKey];
+                html += `
+                    <div class="compliance-card">
+                        <div class="card-header"><h3>参考条款：${data.title}</h3></div>
+                        <div class="card-body">
+                            <p><strong>必备资质：</strong> ${data.qualification}</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                ${data.requirements.slice(0, 3).map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+
+            resultArea.innerHTML = html;
+        }
+
+        function renderContent(key) {
+            const data = complianceData[key];
+            if (!data) return;
+
+            resultArea.innerHTML = `
                 <div class="compliance-card">
                     <div class="card-header"><h3>${data.title} - 权威合规指南</h3></div>
                     <div class="card-body">
@@ -203,47 +312,6 @@
                     </div>
                 </div>
             `;
-            resultArea.innerHTML = html;
-        }
-
-        function handleAction(type, value) {
-            resultArea.style.display = 'none';
-            loader.style.display = 'block';
-
-            // Built-in Prompt Logic Simulation
-            // "你是金融科技合规专家，请根据用户的问题，从上面的合规条款中提取最相关的内容..."
-            
-            setTimeout(() => {
-                loader.style.display = 'none';
-                resultArea.style.display = 'block';
-
-                if (type === 'tab') {
-                    renderContent(value);
-                } else if (type === 'search') {
-                    const query = value.toLowerCase();
-                    let matchKey = null;
-                    
-                    // Enhanced keyword matching
-                    for (const key in complianceData) {
-                        const item = complianceData[key];
-                        const searchString = (item.title + item.regulator + item.keywords.join(' ') + item.requirements.join(' ')).toLowerCase();
-                        if (searchString.includes(query) || item.keywords.some(k => query.includes(k.toLowerCase()))) {
-                            matchKey = key;
-                            break;
-                        }
-                    }
-
-                    if (matchKey) {
-                        renderContent(matchKey, true, value);
-                    } else {
-                        resultArea.innerHTML = `
-                            <div class="ai-answer" style="background: #fff5f5; border-left-color: #e74c3c;">
-                                <p><strong>🤖 AI 合规专家：</strong> 抱歉，作为合规专家，我检索了现有的知识库，暂时没有找到与“${value}”相关的合规信息。请尝试查询“支付”、“数据安全”、“反洗钱”或“贷款利率”等关键词。</p>
-                            </div>
-                        `;
-                    }
-                }
-            }, 1000);
         }
 
         searchBtn.addEventListener('click', () => {

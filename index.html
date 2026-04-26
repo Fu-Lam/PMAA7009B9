@@ -15,6 +15,7 @@
                 <li><a href="quick-check.html">合规速查</a></li>
                 <li><a href="diagnosis.html">合规诊断</a></li>
                 <li><a href="document-generation.html">文书生成</a></li>
+                <li><a href="pricing.html">定价</a></li>
                 <li><a href="about.html">关于我们</a></li>
             </ul>
         </div>
@@ -66,16 +67,18 @@
     </section>
 
     <!-- AI Compliance Assistant Dialog Area -->
-    <section class="ai-assistant-section">
-        <div class="ai-assistant-header">
+    <section class="ai-assistant-section" id="aiAssistant" style="width: 100%; height: 33vh; bottom: 0; right: 0; left: 0; border-radius: 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);">
+        <div class="resize-handle" id="resizeHandle" style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; cursor: n-resize; background: transparent; z-index: 2001;"></div>
+        <div class="ai-assistant-header" id="chatHeader" style="cursor: move;">
             <h3><i class="fas fa-comment-dots"></i> AI 合规助手 24/7 在线解答</h3>
-            <button style="background:transparent; border:none; color:white; cursor:pointer;" onclick="toggleChat()"><i class="fas fa-chevron-down"></i></button>
+            <button style="background:transparent; border:none; color:white; cursor:pointer;" onclick="event.stopPropagation(); toggleChat()"><i class="fas fa-chevron-down"></i></button>
         </div>
         <div class="ai-assistant-layout" id="chatLayout">
             <aside class="chat-sidebar">
-                <div class="history-item">支付合规咨询</div>
-                <div class="history-item">消费金融合规咨询</div>
-                <div class="history-item">数据合规咨询</div>
+                <div class="history-item">支付合规</div>
+                <div class="history-item">数据合规</div>
+                <div class="history-item">反洗钱</div>
+                <div class="history-item">消费金融</div>
             </aside>
             <main class="chat-main">
                 <div class="chat-top-bar">新对话</div>
@@ -102,31 +105,61 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const messages = document.getElementById('chatMessages');
-            const text = input.value.trim();
-            
-            if (text) {
-                // Add user message
-                const userMsg = document.createElement('div');
-                userMsg.className = 'message user';
-                userMsg.innerText = text;
-                messages.appendChild(userMsg);
-                input.value = '';
-                
-                // Auto scroll
-                messages.scrollTop = messages.scrollHeight;
+        // --- 豆包 (Doubao) API 配置 ---
+        const API_KEY = 'ark-6c00de05-4616-42eb-b202-358f5bb04057-49af4';
+        const MODEL_ID = 'doubao-seed-2-0-mini-260215';
+        const API_URL = 'https://ark.cn-beijing.volces.com/api/v3/chat/completions';
 
-                // Simulate AI response
-                setTimeout(() => {
-                    const aiMsg = document.createElement('div');
-                    aiMsg.className = 'message ai';
-                    aiMsg.innerText = `针对您提问的“${text}”，我正在检索最新的金融监管库... 作为初级建议：金融科技业务通常需要根据业务类型（如第三方支付、消费信贷）申请对应的牌照。建议您前往“合规诊断”页面进行深度评估。`;
-                    messages.appendChild(aiMsg);
-                    messages.scrollTop = messages.scrollHeight;
-                }, 1000);
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            appendMessage('user', message);
+            input.value = '';
+
+            // Add AI thinking message
+            const aiMsgDiv = appendMessage('ai', '正在思考中...');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL_ID,
+                        messages: [
+                            { role: "system", content: "你是一位专业的金融科技合规助手，请回答用户关于支付、数据安全、反洗钱及消费金融的合规问题。" },
+                            { role: "user", content: message }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'API 调用失败');
+                }
+
+                const data = await response.json();
+                aiMsgDiv.innerText = data.choices[0].message.content;
+
+            } catch (error) {
+                console.error('API Error:', error);
+                aiMsgDiv.innerText = `🤖 抱歉，AI 引擎连接失败: ${error.message}`;
             }
+        }
+
+        function appendMessage(role, text) {
+            const container = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${role}`; // role: 'user' or 'ai'
+            msgDiv.innerText = text;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+            return msgDiv;
         }
 
         function toggleChat() {
@@ -139,9 +172,77 @@
             } else {
                 layout.style.display = 'none';
                 section.style.height = 'auto';
-                section.style.width = '250px'; // Smaller when closed
+                section.style.width = '250px'; 
             }
         }
+
+        // Draggable & Resizable Logic
+        const chatWindow = document.getElementById('aiAssistant');
+        const chatHeader = document.getElementById('chatHeader');
+        const resizeHandle = document.getElementById('resizeHandle');
+        
+        let isDragging = false;
+        let isResizing = false;
+        let offset = { x: 0, y: 0 };
+        let startSize = { w: 0, h: 0 };
+
+        // Dragging
+        chatHeader.addEventListener('mousedown', (e) => {
+            if (e.target.closest('button')) return; 
+            isDragging = true;
+            offset.x = e.clientX - chatWindow.offsetLeft;
+            offset.y = e.clientY - chatWindow.offsetTop;
+            chatWindow.style.transition = 'none';
+        });
+
+        // Resizing (Top edge)
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startSize.h = chatWindow.offsetHeight;
+            offset.y = e.clientY;
+            chatWindow.style.transition = 'none';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                let x = e.clientX - offset.x;
+                let y = e.clientY - offset.y;
+                const maxX = window.innerWidth - chatWindow.offsetWidth;
+                const maxY = window.innerHeight - chatWindow.offsetHeight;
+                x = Math.max(0, Math.min(x, maxX));
+                y = Math.max(0, Math.min(y, maxY));
+                chatWindow.style.left = x + 'px';
+                chatWindow.style.top = y + 'px';
+                chatWindow.style.bottom = 'auto';
+                chatWindow.style.right = 'auto';
+                chatWindow.style.width = chatWindow.offsetWidth + 'px'; // Freeze width once dragged
+                chatWindow.style.borderRadius = '12px';
+            }
+
+            if (isResizing) {
+                const diffY = offset.y - e.clientY;
+                const newHeight = startSize.h + diffY;
+                if (newHeight > 100 && newHeight < window.innerHeight * 0.8) {
+                    chatWindow.style.height = newHeight + 'px';
+                    // If it's fixed to bottom, we don't need to adjust top, 
+                    // but if it's absolute/draggable, we might.
+                    // For now, assume vertical resize from bottom fixed.
+                    if (chatWindow.style.bottom === '0px' || chatWindow.style.bottom === '0') {
+                        // Height growth automatically pushes top up
+                    } else {
+                        // If dragged, we need to adjust top to keep bottom anchored or just resize down
+                        chatWindow.style.top = (e.clientY) + 'px';
+                    }
+                }
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            isResizing = false;
+            chatWindow.style.transition = 'var(--transition)';
+        });
 
         // Allow Enter key to send message
         document.getElementById('chatInput').addEventListener('keypress', function (e) {

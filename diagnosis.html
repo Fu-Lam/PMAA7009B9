@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 合规诊断 - FinCheck</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav>
@@ -15,6 +16,7 @@
                 <li><a href="quick-check.html">合规速查</a></li>
                 <li><a href="diagnosis.html" class="active">合规诊断</a></li>
                 <li><a href="document-generation.html">文书生成</a></li>
+                <li><a href="pricing.html">定价</a></li>
                 <li><a href="about.html">关于我们</a></li>
             </ul>
         </div>
@@ -23,73 +25,228 @@
     <header class="page-header">
         <div class="container">
             <h1>AI 合规诊断</h1>
-            <p>基于最新的监管标准，为您的金融产品提供即时的合规健康检查。</p>
+            <p>基于中国监管法规，为您的金融科技产品提供动态、实时的合规审计报告。</p>
         </div>
     </header>
 
     <main class="container">
-        <!-- Diagnosis Form -->
-        <div class="diagnosis-container" id="diagnosisContainer">
-            <h2 style="margin-bottom: 30px; text-align: center; color: var(--dark-blue);">产品合规基础信息</h2>
-            <form id="diagnosisForm">
+        <!-- Diagnosis Form Container -->
+        <div class="diagnosis-container" id="diagnosisFormContainer">
+            <h2 style="margin-bottom: 30px; text-align: center; color: var(--dark-blue);">产品合规信息登记</h2>
+            <form id="dynamicDiagnosisForm">
+                <!-- Question 1: Product Type (Mandatory) -->
                 <div class="form-group">
-                    <label for="productType">1. 您的产品类型是？</label>
-                    <select id="productType" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="payment">支付</option>
-                        <option value="credit">信贷</option>
-                        <option value="wealth">理财</option>
-                        <option value="insurance">保险</option>
+                    <label for="productType"><i class="fas fa-layer-group"></i> 1. 您的产品类型是？ <span style="color: red;">*</span></label>
+                    <select id="productType" class="form-control" onchange="toggleProductQuestions()" required>
+                        <option value="">-- 请选择产品类型 --</option>
+                        <option value="payment">支付产品</option>
+                        <option value="credit">消费金融产品</option>
+                        <option value="wealth">理财/资管产品</option>
+                        <option value="insurance">保险科技产品</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>2. 是否收集用户个人信息（身份证、生物识别等）？</label>
-                    <select id="collectInfo" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="yes">是</option>
-                        <option value="no">否</option>
-                    </select>
+
+                <!-- Product Specific Questions -->
+                <div id="payment-questions" class="question-block">
+                    <h4><i class="fas fa-credit-card"></i> 支付产品专属问题</h4>
+                    <div class="form-group">
+                        <label>P1. 是否从事跨境外币支付业务？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p1" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="p1" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>P2. 客户备付金是否 100% 全额交存中国人民银行？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p2" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="p2" value="no"> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>P3. 交易记录是否自完成之日起保存至少 5 年？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p3" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="p3" value="no"> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>P4. 是否建立了完整的客户身份识别（KYC）体系？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p4" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="p4" value="no"> 否</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>3. 是否集成第三方 SDK（统计、广告、社交等）？</label>
-                    <select id="useSdk" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="yes">是</option>
-                        <option value="no">否</option>
-                    </select>
+
+                <div id="credit-questions" class="question-block">
+                    <h4><i class="fas fa-hand-holding-usd"></i> 消费金融产品专属问题</h4>
+                    <div class="form-group">
+                        <label>C1. 贷款利率是否控制在 LPR 的 4 倍以内？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c1" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="c1" value="no"> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>C2. 是否向无收入来源的借款人（如在校学生）发放贷款？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c2" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="c2" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>C3. 是否采用暴力、胁迫、骚扰等非法方式催收贷款？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c3" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="c3" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>C4. 是否充分披露了所有利息、费用和还款条款？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c4" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="c4" value="no"> 否</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>4. 是否向用户推送营销信息（短信、弹窗等）？</label>
-                    <select id="marketing" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="yes">是</option>
-                        <option value="no">否</option>
-                    </select>
+
+                <div id="wealth-questions" class="question-block">
+                    <h4><i class="fas fa-chart-line"></i> 理财/资管产品专属问题</h4>
+                    <div class="form-group">
+                        <label>W1. 是否取得了相应的资产管理业务牌照？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w1" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="w1" value="no"> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>W2. 是否向投资者充分揭示了投资风险？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w2" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="w2" value="no"> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>W3. 是否向投资者作出任何刚性兑付（保本保收益）承诺？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w3" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="w3" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>W4. 投资者资金是否由第三方商业银行进行托管？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w4" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="w4" value="no"> 否</label>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 20px;">生成 AI 诊断报告</button>
+
+                <div id="insurance-questions" class="question-block">
+                    <h4><i class="fas fa-shield-alt"></i> 保险科技产品专属问题</h4>
+                    <div class="form-group">
+                        <label>I1. 是否与持牌保险公司开展合作？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i1" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="i1" value="no"> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>I2. 是否如实告知保险产品的个人信息处理规则？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i2" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="i2" value="no"> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>I3. 是否存在夸大保险责任、误导性销售的行为？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i3" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="i3" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>I4. 理赔流程是否公开透明、符合监管要求？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i4" value="yes" checked> 是</label>
+                            <label class="radio-item"><input type="radio" name="i4" value="no"> 否</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- General Questions (Always Visible) -->
+                <div class="form-section" style="border-top: 1px solid var(--gray-200); padding-top: 25px; margin-top: 25px;">
+                    <h4><i class="fas fa-globe"></i> 通用合规问题</h4>
+                    <div class="form-group">
+                        <label>G1. 是否收集用户个人敏感信息（身份证、生物识别等）？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g1" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="g1" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>G2. 是否集成了第三方 SDK（统计、广告、社交等）？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g2" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="g2" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>G3. 是否向用户推送营销信息（短信、弹窗等）？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g3" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="g3" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>G4. 用户数据是否会传输到中国境外？</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g4" value="yes"> 是</label>
+                            <label class="radio-item"><input type="radio" name="g4" value="no" checked> 否</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 30px; font-size: 1.1rem;" onclick="submitDiagnosis()">
+                    <i class="fas fa-magic"></i> 生成 AI 合规诊断报告
+                </button>
             </form>
         </div>
 
-        <!-- Loading -->
+        <!-- Loading State -->
         <div id="loader" class="loader-container" style="display: none; padding: 100px 0;">
-            <span class="loader"></span>
-            <p style="margin-top: 20px; font-size: 1.1rem; color: var(--primary-blue);">正在调用 AI 合规诊断 API，请稍候...</p>
+            <div class="loader"></div>
+            <p style="margin-top: 20px; font-size: 1.2rem; color: var(--primary-blue); font-weight: 600;">正在调用 AI 合规诊断引擎，生成报告中...</p>
         </div>
 
-        <!-- Report Result -->
+        <!-- Report Result Area -->
         <div id="reportResult" class="report-card">
+            <!-- Header -->
             <div class="report-header">
-                <h2 style="color: var(--dark-blue); margin-bottom: 5px;">AI 合规诊断报告</h2>
-                <p class="report-time">生成时间：2026年4月25日</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <h2 style="color: var(--dark-blue); margin-bottom: 5px;">AI 合规诊断报告</h2>
+                        <p class="report-time" id="reportTime">生成时间：2026年4月26日</p>
+                    </div>
+                    <div id="riskBadge"></div>
+                </div>
             </div>
 
-            <div id="reportContent">
-                <!-- Dynamic Content Here -->
+            <!-- Score Area -->
+            <div class="score-section" id="scoreSection">
+                <!-- Dynamic Score -->
             </div>
 
+            <!-- Detailed Content -->
+            <div id="reportDetails">
+                <!-- AI Generated Content -->
+            </div>
+
+            <!-- Action Buttons -->
             <div class="report-actions">
-                <button class="btn btn-primary" onclick="alert('操作成功：报告内容已复制到剪贴板')">复制报告</button>
-                <button class="btn btn-cta" onclick="alert('操作成功：PDF 报告已开始下载')">下载 PDF</button>
+                <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> 打印报告</button>
+                <button class="btn btn-cta" onclick="alert('文书生成功能正在对接...')"><i class="fas fa-file-invoice"></i> 生成对应法律文书</button>
                 <button class="btn" style="background: var(--gray-200); color: var(--text-main);" onclick="location.reload()">重新诊断</button>
             </div>
         </div>
@@ -102,99 +259,212 @@
     </footer>
 
     <script>
-        const reports = {
-            low: {
-                score: 92,
-                level: '低风险',
-                levelClass: 'risk-low',
-                issues: '产品架构基本符合监管要求，合规意识较强。',
-                advice: '1. 资质：确保持牌经营，关注证照年检；2. 数据：建议定期进行数据安全审计；3. 反洗钱：完善大额交易监测规则。'
-            },
-            medium: {
-                score: 72,
-                level: '中风险',
-                levelClass: 'risk-medium',
-                issues: '用户授权流程存在瑕疵，第三方 SDK 权限获取过广。',
-                advice: '1. 资质：补充必要的网络安全等级保护备案；2. 数据：重构用户隐私协议，增加显式授权弹窗；3. 营销：增加用户一键退订营销信息的功能。'
-            },
-            high: {
-                score: 45,
-                level: '高风险',
-                levelClass: 'risk-high',
-                issues: '存在严重合规漏洞，涉嫌过度收集敏感信息及违规跨界经营。',
-                advice: '1. 立即停止未经授权的数据收集行为；2. 资质：需立即申请对应业务赛道的金融牌照；3. 营销：停止所有诱导性借贷推广。建议立即咨询专业律师团队。'
-            }
+        // --- 豆包 (Doubao) API 配置 ---
+        const CONFIG = {
+            API_KEY: 'ark-6c00de05-4616-42eb-b202-358f5bb04057-49af4', 
+            MODEL_ID: 'doubao-seed-2-0-mini-260215',
+            BASE_URL: 'https://ark.cn-beijing.volces.com/api/v3/chat/completions',
+            IS_MOCK: false // 切换为真实 API
         };
 
-        const form = document.getElementById('diagnosisForm');
-        const loader = document.getElementById('loader');
-        const container = document.getElementById('diagnosisContainer');
-        const result = document.getElementById('reportResult');
-        const contentArea = document.getElementById('reportContent');
+        function toggleProductQuestions() {
+            const type = document.getElementById('productType').value;
+            document.querySelectorAll('.question-block').forEach(block => block.style.display = 'none');
+            if (type) {
+                const target = document.getElementById(`${type}-questions`);
+                if (target) target.style.display = 'block';
+            }
+        }
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+        async function submitDiagnosis() {
+            const productType = document.getElementById('productType').value;
+            if (!productType) {
+                alert('请先选择产品类型');
+                return;
+            }
+
+            const formData = collectFormData();
+            document.getElementById('diagnosisFormContainer').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+
+            try {
+                let reportContent = "";
+                if (CONFIG.API_KEY === 'YOUR_API_KEY_HERE' || CONFIG.IS_MOCK) {
+                    reportContent = await simulateAIReport(productType, formData);
+                } else {
+                    reportContent = await callRealAI(productType, formData);
+                }
+                renderReport(reportContent);
+            } catch (error) {
+                console.error(error);
+                alert('抱歉，生成报告时遇到错误，请稍后重试');
+                location.reload();
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+
+        function collectFormData() {
+            const form = document.getElementById('dynamicDiagnosisForm');
+            const data = {};
+            const inputs = form.querySelectorAll('input[type="radio"]:checked');
+            inputs.forEach(input => {
+                const label = input.closest('.form-group').querySelector('label').innerText;
+                data[label] = input.value === 'yes' ? '是' : '否';
+            });
+            return data;
+        }
+
+        async function simulateAIReport(type, data) {
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            const typeName = document.getElementById('productType').selectedOptions[0].text;
             
-            // Hide form and show loader
-            container.style.display = 'none';
-            loader.style.display = 'block';
+            // 逻辑化评分系统：区分正面和负面问题
+            let score = 50; // 基础分
 
-            // Simulate 2s processing
-            setTimeout(() => {
-                loader.style.display = 'none';
-                result.style.display = 'block';
+            // 正面加分项 (用户回答“是”代表合规性更好)
+            const positiveLabels = [
+                'P2. 客户备付金是否 100% 全额交存中国人民银行？',
+                'P3. 交易记录是否自完成之日起保存至少 5 年？',
+                'P4. 是否建立了完整的客户身份识别（KYC）体系？',
+                'C1. 贷款利率是否控制在 LPR 的 4 倍以内？',
+                'C4. 是否充分披露了所有利息、费用和还款条款？',
+                'W1. 是否取得了相应的资产管理业务牌照？',
+                'W2. 是否向投资者充分揭示了投资风险？',
+                'W4. 投资者资金是否由第三方商业银行进行托管？',
+                'I1. 是否与持牌保险公司开展合作？',
+                'I2. 是否如实告知保险产品的个人信息处理规则？',
+                'I4. 理赔流程是否公开透明、符合监管要求？'
+            ];
 
-                // Simple logic to pick report
-                const yesCount = [
-                    document.getElementById('collectInfo').value,
-                    document.getElementById('useSdk').value,
-                    document.getElementById('marketing').value
-                ].filter(v => v === 'yes').length;
+            // 负面减分项 (用户回答“是”代表存在违规风险)
+            const negativeLabels = [
+                'P1. 是否从事跨境外币支付业务？', // 跨境涉及更高风险
+                'C2. 是否向无收入来源的借款人（如在校学生）发放贷款？',
+                'C3. 是否采用暴力、胁迫、骚扰等非法方式催收贷款？',
+                'W3. 是否向投资者作出任何刚性兑付（保本保收益）承诺？',
+                'I3. 是否存在夸大保险责任、误导性销售的行为？',
+                'G1. 是否收集用户个人敏感信息（身份证、生物识别等）？',
+                'G2. 是否集成了第三方 SDK（统计、广告、社交等）？',
+                'G3. 是否向用户推送营销信息（短信、弹窗等）？',
+                'G4. 用户数据是否会传输到中国境外？'
+            ];
 
-                let reportKey = 'low';
-                if (yesCount >= 3) reportKey = 'high';
-                else if (yesCount >= 1) reportKey = 'medium';
+            for (const [label, value] of Object.entries(data)) {
+                if (positiveLabels.some(pl => label.includes(pl.substring(0, 10)))) {
+                    score += (value === '是' ? 12 : -10);
+                } else if (negativeLabels.some(nl => label.includes(nl.substring(0, 10)))) {
+                    score += (value === '是' ? -15 : 5);
+                }
+            }
 
-                const data = reports[reportKey];
-                const productText = document.getElementById('productType').selectedOptions[0].text;
+            score = Math.max(0, Math.min(100, score));
+            let risk = "低";
+            if (score < 60) risk = "高";
+            else if (score < 85) risk = "中";
 
-                contentArea.innerHTML = `
-                    <div class="score-section">
-                        <div class="score-circle">
-                            <span class="num">${data.score}</span>
-                            <span style="font-size: 0.8rem;">合规评分</span>
-                        </div>
-                        <div>
-                            <span style="display: block; margin-bottom: 5px; color: #666;">风险等级</span>
-                            <span class="risk-level ${data.levelClass}">${data.level}</span>
-                        </div>
-                    </div>
+            const resultText = score >= 85 ? "合规表现优秀" : (score >= 60 ? "合规基本合格" : "合规风险极高");
+            const issueText = score >= 85 ? "目前业务逻辑基本符合监管导向，建议保持关注。" : "检测到多项核心业务逻辑与监管红线冲突，建议立即自查。";
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">1. 资质要求诊断</span>
-                        <p>针对 <strong>${productText}</strong> 业务，您需要具备相关的金融牌照或备案。当前系统评估结论为：${data.score > 80 ? '符合预期' : '需尽快补齐'}</p>
-                    </div>
+            return `
+# 合规评分：${score} | 风险等级：${risk}
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">2. 数据合规诊断</span>
-                        <p>${data.issues}</p>
-                    </div>
+## 1. 整体合规概况
+针对 **${typeName}** 业务的初步诊断显示，您的产品${resultText}。合规评分达 ${score} 分。
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">3. 反洗钱要求</span>
-                        <p>根据您的产品类型，必须建立健全的 KYC 和可疑交易报告机制。</p>
-                    </div>
+## 2. 存在的合规问题
+- **${risk === '低' ? '优化点' : '关键风险'}**：${issueText}
+- **法规参考**：涉及《个人信息保护法》及${typeName === '支付产品' ? '《非银行支付机构监督管理条例》' : '相关金融监管指引'}。
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">4. 营销合规诊断</span>
-                        <p>存在的问题和整改建议：</p>
-                        <p style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-top: 10px;">
-                            ${data.advice.split(';').join('<br>')}
-                        </p>
-                    </div>
-                `;
-            }, 2000);
-        });
+## 3. 整改建议
+1. **${risk === '低' ? '持续监测' : '立即整改'}**：针对本次扫描中回答为“否”的合规项（如资质/记录保存等）进行补强。
+2. **制度建设**：建立常态化合规审查机制。
+
+## 4. 总结
+作为金融科技初创企业，${score > 80 ? '您的合规意识较好，请继续保持。' : '建议在业务扩张前先行解决合规短板。'}
+`;
+        }
+
+        async function callRealAI(type, data) {
+            const typeName = document.getElementById('productType').selectedOptions[0].text;
+            const systemPrompt = `你是一位专业的中国金融科技合规审计师，请根据用户提交的产品信息，生成一份详细、专业的合规诊断报告。
+要求：
+1. 首先给出整体合规评分（0-100 分）和对应的风险等级（低 / 中 / 高）
+2. 分点列出存在的合规问题，每个问题必须明确指出违反的具体中国监管法规
+3. 针对每个问题给出具体、可操作的整改建议，不要泛泛而谈
+4. 最后给出总结和下一步行动建议
+5. 语言专业严谨，适合金融科技初创公司创始人阅读
+6. 报告格式清晰，使用标题和有序列表，适合在网页上展示`;
+
+            const userPrompt = `产品类型：${typeName}\n详细调研回答数据：\n${JSON.stringify(data, null, 2)}`;
+
+            try {
+                const response = await fetch(CONFIG.BASE_URL, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${CONFIG.API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: CONFIG.MODEL_ID,
+                        messages: [
+                            { role: "system", content: systemPrompt },
+                            { role: "user", content: userPrompt }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'API 调用失败');
+                }
+
+                const result = await response.json();
+                return result.choices[0].message.content;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        function renderReport(content) {
+            const reportArea = document.getElementById('reportResult');
+            const details = document.getElementById('reportDetails');
+            const scoreSection = document.getElementById('scoreSection');
+            const riskBadge = document.getElementById('riskBadge');
+
+            reportArea.style.display = 'block';
+            
+            const scoreMatch = content.match(/评分[：\s](\d+)/);
+            const riskMatch = content.match(/风险等级[：\s](低|中|高)/);
+            const score = scoreMatch ? scoreMatch[1] : "??";
+            const risk = riskMatch ? riskMatch[1] : "未知";
+
+            let riskClass = 'risk-low';
+            if (risk === '中') riskClass = 'risk-medium';
+            if (risk === '高') riskClass = 'risk-high';
+
+            riskBadge.innerHTML = `<span class="risk-level ${riskClass}">${risk}风险</span>`;
+            scoreSection.innerHTML = `
+                <div class="score-circle">
+                    <span class="num">${score}</span>
+                    <span style="font-size: 0.8rem;">合规总分</span>
+                </div>
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">
+                    基于 AI 审计引擎对 <strong>${document.getElementById('productType').selectedOptions[0].text}</strong> 的合规诊断。
+                </p>
+            `;
+
+            let formattedBody = content
+                .replace(/^# (.*$)/gim, '<h2 style="color:var(--dark-blue); margin-top:20px;">$1</h2>')
+                .replace(/^## (.*$)/gim, '<h3 style="color:var(--primary-blue); margin-top:15px; border-bottom:1px solid #eee; padding-bottom:5px;">$1</h3>')
+                .replace(/^\- (.*$)/gim, '<div class="compliance-issue">$1</div>')
+                .replace(/^\d\. (.*$)/gim, '<div class="compliance-advice">$1</div>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            details.innerHTML = formattedBody;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
