@@ -3,198 +3,468 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 合规诊断 - FinCheck</title>
+    <title>AI Compliance Diagnosis - FinCheck</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav>
         <div class="container nav-container">
             <a href="index.html" class="logo">FinCheck</a>
             <ul class="nav-links">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="quick-check.html">合规速查</a></li>
-                <li><a href="diagnosis.html" class="active">合规诊断</a></li>
-                <li><a href="document-generation.html">文书生成</a></li>
-                <li><a href="about.html">关于我们</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="quick-check.html">Compliance Quick Check</a></li>
+                <li><a href="diagnosis.html" class="active">Compliance Diagnosis</a></li>
+                <li><a href="document-generation.html">Legal Document Generator</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="about.html">About Us</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="page-header">
         <div class="container">
-            <h1>AI 合规诊断</h1>
-            <p>基于最新的监管标准，为您的金融产品提供即时的合规健康检查。</p>
+            <h1>AI Compliance Diagnosis</h1>
+            <p>Dynamic, real-time compliance audit reports for your FinTech products based on Chinese regulatory laws.</p>
         </div>
     </header>
 
     <main class="container">
-        <!-- Diagnosis Form -->
-        <div class="diagnosis-container" id="diagnosisContainer">
-            <h2 style="margin-bottom: 30px; text-align: center; color: var(--dark-blue);">产品合规基础信息</h2>
-            <form id="diagnosisForm">
+        <!-- Diagnosis Form Container -->
+        <div class="diagnosis-container" id="diagnosisFormContainer">
+            <h2 style="margin-bottom: 30px; text-align: center; color: var(--dark-blue);">Product Compliance Information Registration</h2>
+            <form id="dynamicDiagnosisForm">
+                <!-- Question 1: Product Type (Mandatory) -->
                 <div class="form-group">
-                    <label for="productType">1. 您的产品类型是？</label>
-                    <select id="productType" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="payment">支付</option>
-                        <option value="credit">信贷</option>
-                        <option value="wealth">理财</option>
-                        <option value="insurance">保险</option>
+                    <label for="productType"><i class="fas fa-layer-group"></i> 1. What is your product type? <span style="color: red;">*</span></label>
+                    <select id="productType" class="form-control" onchange="toggleProductQuestions()" required>
+                        <option value="">-- Please select product type --</option>
+                        <option value="payment">Payment Product</option>
+                        <option value="credit">Consumer Finance Product</option>
+                        <option value="wealth">Wealth/Asset Management Product</option>
+                        <option value="insurance">InsurTech Product</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>2. 是否收集用户个人信息（身份证、生物识别等）？</label>
-                    <select id="collectInfo" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="yes">是</option>
-                        <option value="no">否</option>
-                    </select>
+
+                <!-- Product Specific Questions -->
+                <div id="payment-questions" class="question-block">
+                    <h4><i class="fas fa-credit-card"></i> Payment Product Specific Questions</h4>
+                    <div class="form-group">
+                        <label>P1. Do you engage in cross-border foreign exchange payment business?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p1" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="p1" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>P2. Are Customer Reserve Funds 100% fully deposited with the PBOC?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p2" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="p2" value="no"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>P3. Are transaction records kept for at least 5 years from the date of completion?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p3" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="p3" value="no"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>P4. Is a complete Know Your Customer (KYC) system established?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="p4" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="p4" value="no"> No</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>3. 是否集成第三方 SDK（统计、广告、社交等）？</label>
-                    <select id="useSdk" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="yes">是</option>
-                        <option value="no">否</option>
-                    </select>
+
+                <div id="credit-questions" class="question-block">
+                    <h4><i class="fas fa-hand-holding-usd"></i> Consumer Finance Product Specific Questions</h4>
+                    <div class="form-group">
+                        <label>C1. Is the loan interest rate controlled within 4 times the LPR?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c1" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="c1" value="no"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>C2. Are loans issued to borrowers without income sources (e.g., college students)?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c2" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="c2" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>C3. Are illegal methods such as violence, coercion, or harassment used for debt collection?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c3" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="c3" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>C4. Are all interest, fees, and repayment terms fully disclosed?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="c4" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="c4" value="no"> No</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>4. 是否向用户推送营销信息（短信、弹窗等）？</label>
-                    <select id="marketing" class="form-control" required>
-                        <option value="">请选择</option>
-                        <option value="yes">是</option>
-                        <option value="no">否</option>
-                    </select>
+
+                <div id="wealth-questions" class="question-block">
+                    <h4><i class="fas fa-chart-line"></i> Wealth/Asset Management Product Specific Questions</h4>
+                    <div class="form-group">
+                        <label>W1. Have you obtained the corresponding asset management business license?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w1" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="w1" value="no"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>W2. Are investment risks fully disclosed to investors?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w2" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="w2" value="no"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>W3. Do you make any rigid redemption (guaranteed principal and return) promises to investors?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w3" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="w3" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>W4. Are investor funds held in custody by a third-party commercial bank?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="w4" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="w4" value="no"> No</label>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 20px;">生成 AI 诊断报告</button>
+
+                <div id="insurance-questions" class="question-block">
+                    <h4><i class="fas fa-shield-alt"></i> InsurTech Product Specific Questions</h4>
+                    <div class="form-group">
+                        <label>I1. Do you cooperate with licensed insurance companies?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i1" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="i1" value="no"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>I2. Are personal information processing rules for insurance products truthfully disclosed?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i2" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="i2" value="no"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>I3. Are there acts of exaggerating insurance liabilities or misleading sales?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i3" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="i3" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>I4. Is the claims process open, transparent, and compliant with regulatory requirements?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="i4" value="yes" checked> Yes</label>
+                            <label class="radio-item"><input type="radio" name="i4" value="no"> No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- General Questions (Always Visible) -->
+                <div class="form-section" style="border-top: 1px solid var(--gray-200); padding-top: 25px; margin-top: 25px;">
+                    <h4><i class="fas fa-globe"></i> General Compliance Questions</h4>
+                    <div class="form-group">
+                        <label>G1. Do you collect users' sensitive personal information (ID cards, biometrics, etc.)?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g1" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="g1" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>G2. Are Third-party SDKs integrated (analytics, ads, social, etc.)?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g2" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="g2" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>G3. Do you push marketing messages to users (SMS, pop-ups, etc.)?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g3" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="g3" value="no" checked> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>G4. Will user data be transferred outside of China?</label>
+                        <div class="radio-group">
+                            <label class="radio-item"><input type="radio" name="g4" value="yes"> Yes</label>
+                            <label class="radio-item"><input type="radio" name="g4" value="no" checked> No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 30px; font-size: 1.1rem;" onclick="submitDiagnosis()">
+                    <i class="fas fa-magic"></i> Generate AI Compliance Diagnosis Report
+                </button>
             </form>
         </div>
 
-        <!-- Loading -->
+        <!-- Loading State -->
         <div id="loader" class="loader-container" style="display: none; padding: 100px 0;">
-            <span class="loader"></span>
-            <p style="margin-top: 20px; font-size: 1.1rem; color: var(--primary-blue);">正在调用 AI 合规诊断 API，请稍候...</p>
+            <div class="loader"></div>
+            <p style="margin-top: 20px; font-size: 1.2rem; color: var(--primary-blue); font-weight: 600;">Calling AI compliance engine, generating report...</p>
         </div>
 
-        <!-- Report Result -->
+        <!-- Report Result Area -->
         <div id="reportResult" class="report-card">
+            <!-- Header -->
             <div class="report-header">
-                <h2 style="color: var(--dark-blue); margin-bottom: 5px;">AI 合规诊断报告</h2>
-                <p class="report-time">生成时间：2026年4月25日</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <h2 style="color: var(--dark-blue); margin-bottom: 5px;">AI Compliance Diagnosis Report</h2>
+                        <p class="report-time" id="reportTime">Generated on: </p>
+                    </div>
+                    <div id="riskBadge"></div>
+                </div>
             </div>
 
-            <div id="reportContent">
-                <!-- Dynamic Content Here -->
+            <!-- Score Area -->
+            <div class="score-section" id="scoreSection">
+                <!-- Dynamic Score -->
             </div>
 
+            <!-- Detailed Content -->
+            <div id="reportDetails">
+                <!-- AI Generated Content -->
+            </div>
+
+            <!-- Action Buttons -->
             <div class="report-actions">
-                <button class="btn btn-primary" onclick="alert('操作成功：报告内容已复制到剪贴板')">复制报告</button>
-                <button class="btn btn-cta" onclick="alert('操作成功：PDF 报告已开始下载')">下载 PDF</button>
-                <button class="btn" style="background: var(--gray-200); color: var(--text-main);" onclick="location.reload()">重新诊断</button>
+                <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print Report</button>
+                <button class="btn btn-cta" onclick="alert('Legal document generation feature is being integrated...')"><i class="fas fa-file-invoice"></i> Generate Legal Documents</button>
+                <button class="btn" style="background: var(--gray-200); color: var(--text-main);" onclick="location.reload()">Re-diagnose</button>
             </div>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 FinCheck 合规科技. 版权所有。</p>
+            <p>&copy; 2026 FinCheck Compliance Tech. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        const reports = {
-            low: {
-                score: 92,
-                level: '低风险',
-                levelClass: 'risk-low',
-                issues: '产品架构基本符合监管要求，合规意识较强。',
-                advice: '1. 资质：确保持牌经营，关注证照年检；2. 数据：建议定期进行数据安全审计；3. 反洗钱：完善大额交易监测规则。'
-            },
-            medium: {
-                score: 72,
-                level: '中风险',
-                levelClass: 'risk-medium',
-                issues: '用户授权流程存在瑕疵，第三方 SDK 权限获取过广。',
-                advice: '1. 资质：补充必要的网络安全等级保护备案；2. 数据：重构用户隐私协议，增加显式授权弹窗；3. 营销：增加用户一键退订营销信息的功能。'
-            },
-            high: {
-                score: 45,
-                level: '高风险',
-                levelClass: 'risk-high',
-                issues: '存在严重合规漏洞，涉嫌过度收集敏感信息及违规跨界经营。',
-                advice: '1. 立即停止未经授权的数据收集行为；2. 资质：需立即申请对应业务赛道的金融牌照；3. 营销：停止所有诱导性借贷推广。建议立即咨询专业律师团队。'
-            }
+        // --- 豆包 (Doubao) API 配置 ---
+        const CONFIG = {
+            API_KEY: 'ark-6c00de05-4616-42eb-b202-358f5bb04057-49af4', 
+            MODEL_ID: 'doubao-seed-2-0-mini-260215',
+            BASE_URL: 'https://ark.cn-beijing.volces.com/api/v3/chat/completions',
+            IS_MOCK: false // 切换为真实 API
         };
 
-        const form = document.getElementById('diagnosisForm');
-        const loader = document.getElementById('loader');
-        const container = document.getElementById('diagnosisContainer');
-        const result = document.getElementById('reportResult');
-        const contentArea = document.getElementById('reportContent');
+        function toggleProductQuestions() {
+            const type = document.getElementById('productType').value;
+            document.querySelectorAll('.question-block').forEach(block => block.style.display = 'none');
+            if (type) {
+                const target = document.getElementById(`${type}-questions`);
+                if (target) target.style.display = 'block';
+            }
+        }
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+        async function submitDiagnosis() {
+            const productType = document.getElementById('productType').value;
+            if (!productType) {
+                alert('Please select a product type first');
+                return;
+            }
+
+            const formData = collectFormData();
+            document.getElementById('diagnosisFormContainer').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+
+            try {
+                let reportContent = "";
+                if (CONFIG.API_KEY === 'YOUR_API_KEY_HERE' || CONFIG.IS_MOCK) {
+                    reportContent = await simulateAIReport(productType, formData);
+                } else {
+                    reportContent = await callRealAI(productType, formData);
+                }
+                renderReport(reportContent);
+            } catch (error) {
+                console.error(error);
+                alert('Sorry, an error occurred while generating the report. Please try again later.');
+                location.reload();
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+
+        function collectFormData() {
+            const form = document.getElementById('dynamicDiagnosisForm');
+            const data = {};
+            const inputs = form.querySelectorAll('input[type="radio"]:checked');
+            inputs.forEach(input => {
+                const label = input.closest('.form-group').querySelector('label').innerText;
+                data[label] = input.value === 'yes' ? 'Yes' : 'No';
+            });
+            return data;
+        }
+
+        async function simulateAIReport(type, data) {
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            const typeName = document.getElementById('productType').selectedOptions[0].text;
             
-            // Hide form and show loader
-            container.style.display = 'none';
-            loader.style.display = 'block';
+            // Logical scoring system: distinguish between positive and negative questions
+            let score = 50; // Base score
 
-            // Simulate 2s processing
-            setTimeout(() => {
-                loader.style.display = 'none';
-                result.style.display = 'block';
+            // Positive points (Answering "Yes" represents better compliance)
+            const positiveLabels = [
+                'P2. Are Customer Reserve Funds 100% fully deposited with the PBOC?',
+                'P3. Are transaction records kept for at least 5 years from the date of completion?',
+                'P4. Is a complete Know Your Customer (KYC) system established?',
+                'C1. Is the loan interest rate controlled within 4 times the LPR?',
+                'C4. Are all interest, fees, and repayment terms fully disclosed?',
+                'W1. Have you obtained the corresponding asset management business license?',
+                'W2. Are investment risks fully disclosed to investors?',
+                'W4. Are investor funds held in custody by a third-party commercial bank?',
+                'I1. Do you cooperate with licensed insurance companies?',
+                'I2. Are personal information processing rules for insurance products truthfully disclosed?',
+                'I4. Is the claims process open, transparent, and compliant with regulatory requirements?'
+            ];
 
-                // Simple logic to pick report
-                const yesCount = [
-                    document.getElementById('collectInfo').value,
-                    document.getElementById('useSdk').value,
-                    document.getElementById('marketing').value
-                ].filter(v => v === 'yes').length;
+            // Negative points (Answering "Yes" represents a violation risk)
+            const negativeLabels = [
+                'P1. Do you engage in cross-border foreign exchange payment business?',
+                'C2. Are loans issued to borrowers without income sources (e.g., college students)?',
+                'C3. Are illegal methods such as violence, coercion, or harassment used for debt collection?',
+                'W3. Do you make any rigid redemption (guaranteed principal and return) promises to investors?',
+                'I3. Are there acts of exaggerating insurance liabilities or misleading sales?',
+                'G1. Do you collect users\' sensitive personal information (ID cards, biometrics, etc.)?',
+                'G2. Are Third-party SDKs integrated (analytics, ads, social, etc.)?',
+                'G3. Do you push marketing messages to users (SMS, pop-ups, etc.)?',
+                'G4. Will user data be transferred outside of China?'
+            ];
 
-                let reportKey = 'low';
-                if (yesCount >= 3) reportKey = 'high';
-                else if (yesCount >= 1) reportKey = 'medium';
+            for (const [label, value] of Object.entries(data)) {
+                if (positiveLabels.some(pl => label.includes(pl.substring(0, 10)))) {
+                    score += (value === 'Yes' ? 12 : -10);
+                } else if (negativeLabels.some(nl => label.includes(nl.substring(0, 10)))) {
+                    score += (value === 'Yes' ? -15 : 5);
+                }
+            }
 
-                const data = reports[reportKey];
-                const productText = document.getElementById('productType').selectedOptions[0].text;
+            score = Math.max(0, Math.min(100, score));
+            let risk = "Low";
+            if (score < 60) risk = "High";
+            else if (score < 85) risk = "Medium";
 
-                contentArea.innerHTML = `
-                    <div class="score-section">
-                        <div class="score-circle">
-                            <span class="num">${data.score}</span>
-                            <span style="font-size: 0.8rem;">合规评分</span>
-                        </div>
-                        <div>
-                            <span style="display: block; margin-bottom: 5px; color: #666;">风险等级</span>
-                            <span class="risk-level ${data.levelClass}">${data.level}</span>
-                        </div>
-                    </div>
+            const resultText = score >= 85 ? "has excellent compliance performance" : (score >= 60 ? "is generally compliant" : "has extremely high compliance risks");
+            const issueText = score >= 85 ? "Current business logic is generally in line with regulatory guidelines. It is recommended to maintain monitoring." : "Multiple core business logic conflicts with regulatory red lines detected. Immediate self-inspection is recommended.";
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">1. 资质要求诊断</span>
-                        <p>针对 <strong>${productText}</strong> 业务，您需要具备相关的金融牌照或备案。当前系统评估结论为：${data.score > 80 ? '符合预期' : '需尽快补齐'}</p>
-                    </div>
+            return `
+# Compliance Score: ${score} | Risk Level: ${risk}
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">2. 数据合规诊断</span>
-                        <p>${data.issues}</p>
-                    </div>
+## 1. Overall Compliance Overview
+A preliminary diagnosis of the **${typeName}** business shows that your product ${resultText}. The compliance score is ${score}.
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">3. 反洗钱要求</span>
-                        <p>根据您的产品类型，必须建立健全的 KYC 和可疑交易报告机制。</p>
-                    </div>
+## 2. Existing Compliance Issues
+- **${risk === 'Low' ? 'Optimization Points' : 'Key Risks'}**: ${issueText}
+- **Regulatory Reference**: Involves the Personal Information Protection Law and ${typeName.includes('Payment') ? 'Implementation Rules for Non-bank Payment Institutions' : 'Relevant financial regulatory guidelines'}.
 
-                    <div class="report-dimension">
-                        <span class="dimension-title">4. 营销合规诊断</span>
-                        <p>存在的问题和整改建议：</p>
-                        <p style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-top: 10px;">
-                            ${data.advice.split(';').join('<br>')}
-                        </p>
-                    </div>
-                `;
-            }, 2000);
-        });
+## 3. Rectification Suggestions
+1. **${risk === 'Low' ? 'Continuous Monitoring' : 'Immediate Rectification'}**: Strengthen the compliance items answered as "No" in this scan (such as qualifications/record keeping, etc.).
+2. **System Construction**: Establish a normalized compliance review mechanism.
+
+## 4. Summary
+As a FinTech startup, ${score > 80 ? 'your compliance awareness is good. Please keep it up.' : 'it is recommended to address compliance shortcomings before expanding the business.'}
+`;
+        }
+
+        async function callRealAI(type, data) {
+            const typeName = document.getElementById('productType').selectedOptions[0].text;
+            const systemPrompt = `You are a professional Chinese FinTech compliance auditor. Please generate a detailed and professional compliance diagnosis report based on the product information submitted by the user in English.
+Requirements:
+1. First provide the overall compliance score (0-100) and the corresponding risk level (Low / Medium / High) in this format: "Score: [num] | Risk Level: [Low/Medium/High]".
+2. List the existing compliance issues point by point. For each issue, clearly indicate the specific Chinese regulatory laws violated.
+3. Provide specific and actionable rectification suggestions for each issue, do not generalize.
+4. Finally, provide a summary and recommendations for next steps.
+5. The language should be professional and rigorous, suitable for FinTech startup founders to read.
+6. The report format should be clear, using markdown headings and ordered lists, suitable for displaying on a web page.`;
+
+            const userPrompt = `Product Type: ${typeName}\nDetailed Survey Response Data:\n${JSON.stringify(data, null, 2)}`;
+
+            try {
+                const response = await fetch(CONFIG.BASE_URL, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${CONFIG.API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: CONFIG.MODEL_ID,
+                        messages: [
+                            { role: "system", content: systemPrompt },
+                            { role: "user", content: userPrompt }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'API 调用失败');
+                }
+
+                const result = await response.json();
+                return result.choices[0].message.content;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        function renderReport(content) {
+            const reportArea = document.getElementById('reportResult');
+            const details = document.getElementById('reportDetails');
+            const scoreSection = document.getElementById('scoreSection');
+            const riskBadge = document.getElementById('riskBadge');
+
+            reportArea.style.display = 'block';
+            
+            const scoreMatch = content.match(/Score.*?(\d+)/i);
+            const riskMatch = content.match(/Risk Level.*?(Low|Medium|High)/i);
+            const score = scoreMatch ? scoreMatch[1] : "??";
+            const risk = riskMatch ? riskMatch[1] : "Unknown";
+
+            let riskClass = 'risk-low';
+            if (risk === 'Medium') riskClass = 'risk-medium';
+            if (risk === 'High') riskClass = 'risk-high';
+
+            riskBadge.innerHTML = `<span class="risk-level ${riskClass}">${risk} Risk</span>`;
+            scoreSection.innerHTML = `
+                <div class="score-circle">
+                    <span class="num">${score}</span>
+                    <span style="font-size: 0.8rem;">Total Score</span>
+                </div>
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.5;">
+                    Compliance diagnosis of <strong>${document.getElementById('productType').selectedOptions[0].text}</strong> based on the AI audit engine.
+                </p>
+            `;
+
+            let formattedBody = content
+                .replace(/^# (.*$)/gim, '<h2 style="color:var(--dark-blue); margin-top:20px;">$1</h2>')
+                .replace(/^## (.*$)/gim, '<h3 style="color:var(--primary-blue); margin-top:15px; border-bottom:1px solid #eee; padding-bottom:5px;">$1</h3>')
+                .replace(/^\- (.*$)/gim, '<div class="compliance-issue">$1</div>')
+                .replace(/^\d\. (.*$)/gim, '<div class="compliance-advice">$1</div>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            details.innerHTML = formattedBody;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
