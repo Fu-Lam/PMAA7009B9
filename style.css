@@ -51,10 +51,16 @@ nav {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-blue);
-    text-decoration: none;
+    display: inline-block;
+    width: 220px;
+    height: 60px;
+    background: url('logo_cropped.png') no-repeat left center;
+    background-size: contain;
+    text-indent: -9999px;
+    overflow: hidden;
+    mix-blend-mode: multiply;
+    margin-right: 40px;
+    flex-shrink: 0;
 }
 
 .nav-links {
@@ -69,6 +75,7 @@ nav {
     font-weight: 500;
     font-size: 0.95rem;
     transition: var(--transition);
+    white-space: nowrap;
 }
 
 .nav-links a:hover, .nav-links a.active {
@@ -82,7 +89,7 @@ nav {
     background-color: var(--light-blue);
     background-image: 
         linear-gradient(rgba(248, 249, 250, 0.8), rgba(255, 255, 255, 0.95)), 
-        url('file:///C:/Users/25228/.gemini/antigravity/brain/f58a136c-5e82-4d00-bf5b-c9400cca4819/hero_fintech_bg_complex_1777186747278.png');
+        url('hero-bg.png');
     background-size: cover;
     background-position: center;
     border-bottom: 1px solid var(--gray-200);
@@ -872,4 +879,10 @@ footer {
 
 .btn-dark:hover {
     background: #000;
+}
+
+/* Pricing Page Specific Styles */
+body.pricing-page {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e0efff 100%);
+    min-height: 100vh;
 }
